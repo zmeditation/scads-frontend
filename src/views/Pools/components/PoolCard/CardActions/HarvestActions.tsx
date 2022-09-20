@@ -13,7 +13,7 @@ interface HarvestActionsProps {
   sousId: number
   earningTokenPrice: number
   isBnbPool: boolean
-  isLoading?: boolean
+  // isLoading?: boolean
 }
 
 const HarvestActions: React.FC<HarvestActionsProps> = ({

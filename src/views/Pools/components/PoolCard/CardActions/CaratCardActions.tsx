@@ -177,7 +177,7 @@ const CaratCardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) =
           sousId={sousId}
           earningTokenPrice={earningTokenPrice}
           isBnbPool={isBnbPool}
-          isLoading={isLoading}
+          // isLoading={isLoading}
         />
         <Box display="inline">
           <InlineText color={isStaked ? 'secondary' : 'textSubtle'} textTransform="uppercase" bold fontSize="12px">

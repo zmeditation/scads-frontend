@@ -25,7 +25,9 @@ const CaratPoolCard: React.FC<{ pool: DeserializedPool; account: string }> = ({ 
       isFinished={isFinished && sousId !== 0}
       ribbon={isFinished && <CardRibbon variantColor="textDisabled" text={t('Finished')} />}
     >
-      <PoolCardHeader isStaking={accountHasStakedBalance} isFinished={isFinished && sousId !== 0}>
+      <PoolCardHeader 
+      // isStaking={accountHasStakedBalance} 
+      isFinished={isFinished && sousId !== 0}>
         <PoolCardHeaderTitle
           title={isCakePool ? t('Manual') : t('Earn %asset%', { asset: earningToken.symbol })}
           subTitle={isCakePool ? t('Earn Scads, stake Scads') : t('Stake %symbol%', { symbol: stakingToken.symbol })}

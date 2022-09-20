@@ -10,7 +10,6 @@ const Wrapper = styled(CardHeader)<{ isFinished?: boolean }>`
 
 const PoolCardHeader: React.FC<{
   isFinished?: boolean
-  isStaking?: boolean
 }> = ({ isFinished = false, children }) => {
   return (
     <Wrapper isFinished={isFinished}>

@@ -7,8 +7,8 @@ interface Props {
   title: string
   subtitle: string
   // noConfig?: boolean
-  setIsChartDisplayed?: React.Dispatch<React.SetStateAction<boolean>>
-  isChartDisplayed?: boolean
+  // setIsChartDisplayed?: React.Dispatch<React.SetStateAction<boolean>>
+  // isChartDisplayed?: boolean
 }
 
 const CurrencyInputContainer = styled(Flex)`
