@@ -32,7 +32,7 @@ export function useCaratBuyAmount(tokenAmount: TokenAmount, token1: Token): Toke
 
   const value = new BigNumber(tokenAmount?.toFixed(0)).toString()
   const inputs = [value]
-  const result = useSingleCallResult(contract, 'calculateBuyAmount', inputs).result
+  const { result } = useSingleCallResult(contract, 'calculateBuyAmount', inputs)
   return useMemo(() => {
     const requireAmount =
       new BigNumber(result?.toString() ?? 0).times(DEFAULT_TOKEN_DECIMAL).div(getTokenRate(inputTokenAddress)) ?? 0
@@ -47,7 +47,7 @@ export function useCaratBuyBackAmount(tokenAmount: TokenAmount, token1: Token): 
   const value = new BigNumber(tokenAmount?.toFixed(0)).toString()
 
   const inputs = [value]
-  const result = useSingleCallResult(contract, 'calculateRedeemAmount', inputs).result
+  const { result } = useSingleCallResult(contract, 'calculateRedeemAmount', inputs)
   return useMemo(() => {
     const requireAmount =
       new BigNumber(result?.toString() ?? 0).times(DEFAULT_TOKEN_DECIMAL).div(getTokenRate(inputTokenAddress)) ?? 0

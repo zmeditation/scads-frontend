@@ -16,7 +16,7 @@ const CaratPoolCard: React.FC<{ pool: DeserializedPool; account: string }> = ({ 
   const { sousId, stakingToken, earningToken, isFinished, userData } = pool
   const { t } = useTranslation()
   const stakedBalance = userData?.stakedBalance ? new BigNumber(userData.stakedBalance) : BIG_ZERO
-  const accountHasStakedBalance = stakedBalance.gt(0)
+  // const accountHasStakedBalance = stakedBalance.gt(0)
 
   const isCakePool = earningToken.symbol === 'SCADS' && stakingToken.symbol === 'SCADS'
 

@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { ethers } from 'ethers'
-import { formatUnits } from 'ethers/lib/utils'
+// import { ethers } from 'ethers'
+// import { formatUnits } from 'ethers/lib/utils'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
 import { Heading, Flex, Text } from '@scads/uikit'
-import orderBy from 'lodash/orderBy'
+// import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import { useTranslation } from 'contexts/Localization'
 import useIntersectionObserver from 'hooks/useIntersectionObserver'
@@ -19,7 +19,7 @@ import {
   useVaultPools,
 } from 'state/pools/hooks'
 import { usePollFarmsPublicData } from 'state/farms/hooks'
-import { latinise } from 'utils/latinise'
+// import { latinise } from 'utils/latinise'
 import FlexLayout from 'components/Layout/Flex'
 import Page from 'components/Layout/Page'
 import PageHeader from 'components/PageHeader'
@@ -33,7 +33,7 @@ import ScadsPoolCard from './components/PoolCard/ScadsPoolCard'
 import CaratPoolCard from './components/PoolCard/CaratPoolCard'
 import CakeVaultCard from './components/CakeVaultCard'
 import PoolTabButtons from './components/PoolTabButtons'
-import { getCakeVaultEarnings } from './helpers'
+// import { getCakeVaultEarnings } from './helpers'
 
 const CardLayout = styled(FlexLayout)`
   justify-content: center;
@@ -69,7 +69,6 @@ const Pools: React.FC = () => {
   const [numberOfPoolsVisible, setNumberOfPoolsVisible] = useState(NUMBER_OF_POOLS_VISIBLE)
   const { observerRef, isIntersecting } = useIntersectionObserver()
   // const [searchQuery, setSearchQuery] = useState('')
-  const searchQuery = ''
   // const [sortOption, setSortOption] = useState('hot')
   const sortOption = 'hot'
   const chosenPoolsLength = useRef(0)
