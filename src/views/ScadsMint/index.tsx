@@ -1,34 +1,34 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { CurrencyAmount, JSBI, Token, Trade } from '@scads/sdk'
+import { CurrencyAmount, Token, Trade } from '@scads/sdk'
 import {
   Button,
-  Text,
+  // Text,
   ArrowDownIcon,
   Box,
   useModal,
   Flex,
   IconButton,
-  BottomDrawer,
-  useMatchBreakpoints,
+  // BottomDrawer,
+  // useMatchBreakpoints,
   ArrowUpDownIcon,
 } from '@scads/uikit'
 import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
 import SwapWarningTokens from 'config/constants/swapWarningTokens'
 import tokens from 'config/constants/tokens'
-import AddressInputPanel from './components/AddressInputPanel'
+// import AddressInputPanel from './components/AddressInputPanel'
 import Column, { AutoColumn } from '../../components/Layout/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { AutoRow, RowBetween } from '../../components/Layout/Row'
-import { ArrowWrapper, SwapCallbackError, Wrapper } from './components/styleds'
-import TradePrice from './components/TradePrice'
+import { SwapCallbackError, Wrapper } from './components/styleds'
+// import TradePrice from './components/TradePrice'
 import ImportTokenWarningModal from './components/ImportTokenWarningModal'
 import ProgressSteps from './components/ProgressSteps'
 import { AppBody } from '../../components/App'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 
-import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
+// import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { useCurrency, useAllTokens } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
@@ -39,11 +39,11 @@ import {
   useDerivedSwapInfo,
   useSwapActionHandlers,
   useSwapState,
-  useSingleTokenSwapInfo,
+  // useSingleTokenSwapInfo,
 } from '../../state/swap/hooks'
-import { useExpertModeManager, useUserSlippageTolerance } from '../../state/user/hooks'
+import { useExpertModeManager } from '../../state/user/hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
+// import { computeTradePriceBreakdown } from '../../utils/prices'
 import CircleLoader from '../../components/Loader/CircleLoader'
 import Page from '../Page'
 import SwapWarningModal from './components/SwapWarningModal'
@@ -97,27 +97,27 @@ export default function ScadsMint({ history }: RouteComponentProps) {
   const [isExpertMode] = useExpertModeManager()
 
   // get custom setting values for user
-  const [allowedSlippage] = useUserSlippageTolerance()
+  // const [allowedSlippage] = useUserSlippageTolerance()
 
   // swap state
-  const { independentField, typedValue, recipient } = useSwapState()
+  const { independentField, typedValue } = useSwapState()
   const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo()
   // Price data
-  const {
-    [Field.INPUT]: { currencyId: inputCurrencyId },
-    [Field.OUTPUT]: { currencyId: outputCurrencyId },
-  } = useSwapState()
+  // const {
+  //   [Field.INPUT]: { currencyId: inputCurrencyId },
+  //   [Field.OUTPUT]: { currencyId: outputCurrencyId },
+  // } = useSwapState()
 
   const {
     wrapType,
-    execute: onWrap,
-    inputError: wrapInputError,
+    // execute: onWrap,
+    // inputError: wrapInputError,
   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
 
   const trade = showWrap ? undefined : v2Trade
 
-  const singleTokenPrice = useSingleTokenSwapInfo()
+  // const singleTokenPrice = useSingleTokenSwapInfo()
 
   const parsedAmounts = showWrap
     ? {
@@ -129,7 +129,7 @@ export default function ScadsMint({ history }: RouteComponentProps) {
         [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
       }
 
-  const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
+  const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers()
   const isValid = !swapInputError
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
 
@@ -147,7 +147,7 @@ export default function ScadsMint({ history }: RouteComponentProps) {
   )
 
   // modal and loading
-  const [{ tradeToConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
+  const [{ swapErrorMessage }] = useState<{
     tradeToConfirm: Trade | undefined
     attemptingTxn: boolean
     swapErrorMessage: string | undefined
@@ -169,7 +169,6 @@ export default function ScadsMint({ history }: RouteComponentProps) {
   // const [approval, approveCallback] = useApproveCallbackFromTrade(trade, allowedSlippage)
 
   const [approval, approveCallback] = useApproveCallback(parsedAmounts[Field.INPUT], tokens.cake.address)
-  console.log(approval)
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
 
@@ -181,9 +180,9 @@ export default function ScadsMint({ history }: RouteComponentProps) {
   }, [approval, approvalSubmitted])
 
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
-  const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
+  // const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
-  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+  // const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
 
   const { scadsMint } = useScadsMint()
   const handleSwap = async () => {
@@ -191,12 +190,12 @@ export default function ScadsMint({ history }: RouteComponentProps) {
       const stableCoin = currencies[Field.INPUT] as Token
       await scadsMint(formattedAmounts[Field.INPUT], stableCoin.address)
     } catch (e) {
-      console.log(e)
+      console.log('error', e)
     }
   }
 
   // warnings on slippage
-  const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
+  // const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   // show approve flow when: no error on inputs, not approved or pending, or approved in current session
   // never show if price impact is above threshold in non expert mode

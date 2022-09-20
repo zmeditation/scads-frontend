@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Flex, IconButton } from '@scads/uikit'
+import { Flex } from '@scads/uikit'
 import { RouteComponentProps } from 'react-router-dom'
 import Page from '../Page'
 import CaratBuyCard from './caratBuyCard'

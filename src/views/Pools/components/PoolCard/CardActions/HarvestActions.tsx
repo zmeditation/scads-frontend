@@ -1,10 +1,10 @@
 import React from 'react'
-import { Flex, Text, Button, Heading, useModal, Skeleton } from '@scads/uikit'
+import { Flex, Button, useModal } from '@scads/uikit'
 import BigNumber from 'bignumber.js'
 import { Token } from '@scads/sdk'
 import { useTranslation } from 'contexts/Localization'
 import { getFullDisplayBalance, getBalanceNumber, formatNumber } from 'utils/formatBalance'
-import Balance from 'components/Balance'
+// import Balance from 'components/Balance'
 import CollectModal from '../Modals/CollectModal'
 
 interface HarvestActionsProps {
@@ -44,7 +44,7 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
       isCompoundPool={isCompoundPool}
     />,
   )
-
+  console.log(isLoading);
   return (
     <Flex justifyContent="center" alignItems="center" mb="16px">
       <Button disabled={!hasEarnings} onClick={onPresentCollect} width="100%" style={{ marginTop: '8px' }}>

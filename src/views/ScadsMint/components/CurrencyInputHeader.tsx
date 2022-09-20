@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Heading, IconButton, Text } from '@scads/uikit'
-import { useExpertModeManager } from 'state/user/hooks'
+import { Flex, Heading, Text } from '@scads/uikit'
+// import { useExpertModeManager } from 'state/user/hooks'
 
 interface Props {
   title: string

@@ -1,4 +1,4 @@
-import { useCaratPrice } from 'hooks/useBUSDPrice'
+// import { useCaratPrice } from 'hooks/useBUSDPrice'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Timer from '../Timer'
@@ -22,19 +22,19 @@ const LabelValue = styled.div`
   justify-content: center;
   align-items: end;
 `
-const TimerWrapper = styled.div`
-  ${({ theme }) => theme.mediaQueries.sm} {
-    margin-bottom: 16px;
-  }
-  margin-bottom: 8px;
-  .custom-timer {
-    background: url('/images/decorations/countdownBg.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    padding: 0px 10px 7px;
-    display: inline-flex;
-  }
-`
+// const TimerWrapper = styled.div`
+//   ${({ theme }) => theme.mediaQueries.sm} {
+//     margin-bottom: 16px;
+//   }
+//   margin-bottom: 8px;
+//   .custom-timer {
+//     background: url('/images/decorations/countdownBg.png');
+//     background-repeat: no-repeat;
+//     background-size: 100% 100%;
+//     padding: 0px 10px 7px;
+//     display: inline-flex;
+//   }
+// `
 
 const InfoDiv = styled.div`
   padding: 30px;
@@ -53,7 +53,7 @@ const Informations = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft())
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       setTimeLeft(calculateTimeLeft())
     }, 10000)
   })

@@ -5,7 +5,7 @@ import { updateUserStakedBalance, updateUserBalance } from 'state/actions'
 import BigNumber from 'bignumber.js'
 import { DEFAULT_TOKEN_DECIMAL, DEFAULT_GAS_LIMIT } from 'config'
 import { BIG_TEN } from 'utils/bigNumber'
-import { useMasterchef, useSousChef } from 'hooks/useContract'
+import { useSousChef } from 'hooks/useContract'
 import getGasPrice from 'utils/getGasPrice'
 
 const options = {

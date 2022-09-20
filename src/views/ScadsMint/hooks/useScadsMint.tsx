@@ -7,7 +7,7 @@ const useScadsMint = () => {
 
   const handleMint = useCallback(
     async (amount: string, token: string) => {
-      const txHash = await scadsMint(scadsContract, amount, token)
+      await scadsMint(scadsContract, amount, token)
     },
     [scadsContract],
   )

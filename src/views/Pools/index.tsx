@@ -26,7 +26,7 @@ import PageHeader from 'components/PageHeader'
 import { DeserializedPool } from 'state/types'
 import { useUserPoolStakedOnly, useUserPoolsViewMode } from 'state/user/hooks'
 import { usePoolsWithVault } from 'views/Home/hooks/useGetTopPoolsByApr'
-import { BIG_ZERO } from 'utils/bigNumber'
+// import { BIG_ZERO } from 'utils/bigNumber'
 import Loading from 'components/Loading'
 import PoolCard from './components/PoolCard'
 import ScadsPoolCard from './components/PoolCard/ScadsPoolCard'
@@ -65,7 +65,7 @@ const Pools: React.FC = () => {
   const { account } = useWeb3React()
   const { userDataLoaded } = usePools()
   const [stakedOnly, setStakedOnly] = useUserPoolStakedOnly()
-  const [viewMode, setViewMode] = useUserPoolsViewMode()
+  // const [viewMode, setViewMode] = useUserPoolsViewMode()
   const [numberOfPoolsVisible, setNumberOfPoolsVisible] = useState(NUMBER_OF_POOLS_VISIBLE)
   const { observerRef, isIntersecting } = useIntersectionObserver()
   const [searchQuery, setSearchQuery] = useState('')

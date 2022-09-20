@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Flex, Heading, IconButton, ArrowBackIcon, NotificationDot } from '@scads/uikit'
+import { Text, Flex, Heading, IconButton, ArrowBackIcon } from '@scads/uikit'
 import { Link } from 'react-router-dom'
-import { useExpertModeManager } from 'state/user/hooks'
-import Transactions from './Transactions'
+// import { useExpertModeManager } from 'state/user/hooks'
+// import Transactions from './Transactions'
 import QuestionHelper from '../QuestionHelper'
 
 interface Props {
@@ -23,7 +23,7 @@ const AppHeaderContainer = styled(Flex)`
 `
 
 const AppHeader: React.FC<Props> = ({ title, subtitle, helper, backTo, noConfig = false }) => {
-  const [expertMode] = useExpertModeManager()
+  // const [expertMode] = useExpertModeManager()
 
   return (
     <AppHeaderContainer>

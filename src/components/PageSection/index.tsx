@@ -50,7 +50,7 @@ const ChildrenWrapper = styled(Container)`
 const PageSection: React.FC<PageSectionProps> = ({
   children,
   background,
-  svgFill,
+  // svgFill,
   index = 1,
   dividerComponent,
   dividerPosition = 'bottom',

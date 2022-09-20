@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { DEFAULT_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
+import { DEFAULT_GAS_LIMIT } from 'config'
 import getGasPrice from 'utils/getGasPrice'
 
 const options = {

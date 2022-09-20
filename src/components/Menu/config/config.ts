@@ -1,4 +1,4 @@
-import { MenuItemsType, DropdownMenuItemType } from '@scads/uikit'
+import { MenuItemsType } from '@scads/uikit'
 import { ContextApi } from 'contexts/Localization/types'
 // import { nftsBaseUrl } from 'views/Nft/market/constants'
 

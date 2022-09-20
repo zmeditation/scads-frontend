@@ -3,7 +3,7 @@ import { Route, useRouteMatch, useLocation } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { useWeb3React } from '@web3-react/core'
 import { Image, Heading, RowType, Toggle, Text, Flex } from '@scads/uikit'
-import { ChainId } from '@scads/sdk'
+// import { ChainId } from '@scads/sdk'
 import styled from 'styled-components'
 import FlexLayout from 'components/Layout/Flex'
 import Page from 'components/Layout/Page'
@@ -55,23 +55,23 @@ const ToggleWrapper = styled.div`
   }
 `
 
-const LabelWrapper = styled.div`
-  > ${Text} {
-    font-size: 12px;
-  }
-`
+// const LabelWrapper = styled.div`
+//   > ${Text} {
+//     font-size: 12px;
+//   }
+// `
 
-const FilterContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 8px 0px;
+// const FilterContainer = styled.div`
+//   display: flex;
+//   align-items: center;
+//   width: 100%;
+//   padding: 8px 0px;
 
-  ${({ theme }) => theme.mediaQueries.sm} {
-    width: auto;
-    padding: 0;
-  }
-`
+//   ${({ theme }) => theme.mediaQueries.sm} {
+//     width: auto;
+//     padding: 0;
+//   }
+// `
 
 const ViewControls = styled.div`
   flex-wrap: wrap;
@@ -94,11 +94,11 @@ const ViewControls = styled.div`
   }
 `
 
-const StyledImage = styled(Image)`
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 58px;
-`
+// const StyledImage = styled(Image)`
+//   margin-left: auto;
+//   margin-right: auto;
+//   margin-top: 58px;
+// `
 const NUMBER_OF_FARMS_VISIBLE = 12
 
 const getDisplayApr = (cakeRewardsApr?: number, lpRewardsApr?: number) => {

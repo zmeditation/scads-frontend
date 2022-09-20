@@ -4,7 +4,7 @@ import { useAppDispatch } from 'state'
 import { updateUserBalance, updateUserPendingReward } from 'state/actions'
 import { BIG_ZERO } from 'utils/bigNumber'
 import getGasPrice from 'utils/getGasPrice'
-import { useMasterchef, useSousChef } from 'hooks/useContract'
+import { useSousChef } from 'hooks/useContract'
 import { DEFAULT_GAS_LIMIT } from 'config'
 
 const options = {

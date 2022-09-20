@@ -1,15 +1,13 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import styled from 'styled-components'
-import { CurrencyAmount, JSBI, Token, Trade, TokenAmount } from '@scads/sdk'
-import { Button, Text, ArrowDownIcon, Box, useModal, Flex, IconButton, ArrowUpDownIcon } from '@scads/uikit'
-import { ethers } from 'ethers'
+import React, { useCallback, useEffect, useState } from 'react'
+import { JSBI, TokenAmount } from '@scads/sdk'
+import { Button, Text, Box} from '@scads/uikit'
 import { useTranslation } from 'contexts/Localization'
 import tokens from 'config/constants/tokens'
-import { DEFAULT_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
+import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import Column, { AutoColumn } from '../../components/Layout/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { AutoRow, RowBetween } from '../../components/Layout/Row'
-import { ArrowWrapper, SwapCallbackError, Wrapper } from './components/styleds'
+import { Wrapper } from './components/styleds'
 import ProgressSteps from './components/ProgressSteps'
 import { AppBody } from '../../components/App'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
@@ -17,7 +15,7 @@ import ConnectWalletButton from '../../components/ConnectWalletButton'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
 import { Field } from '../../state/swap/actions'
-import { useCaratBuyInfo, useSwapActionHandlers, useSwapState, tryParseAmount } from '../../state/swap/hooks'
+import { useCaratBuyInfo, useSwapActionHandlers} from '../../state/swap/hooks'
 import CircleLoader from '../../components/Loader/CircleLoader'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import CurrencyInputHeader from './components/CurrencyInputHeader'
@@ -37,7 +35,7 @@ export default function CaratBuyCard() {
   )
 
   const {
-    currencyBalances,
+    // currencyBalances,
     requiredAmount,
     inputError: swapInputError,
   } = useCaratBuyInfo(parsedTokenAmount, tokens.cake)
@@ -52,7 +50,6 @@ export default function CaratBuyCard() {
 
   // check whether the user has approved the router on the input token
   const [approval, approveCallback] = useApproveCallback(requiredAmount, tokens.carat.address)
-  console.log(approval)
   // check if user has gone through approval process, used to show two step buttons, reset on token change
   const [approvalSubmitted, setApprovalSubmitted] = useState<boolean>(false)
 
@@ -73,7 +70,7 @@ export default function CaratBuyCard() {
   }
 
   // errors
-  const [showInverted, setShowInverted] = useState<boolean>(false)
+  // const [showInverted, setShowInverted] = useState<boolean>(false)
 
   // show approve flow when: no error on inputs, not approved or pending, or approved in current session
   // never show if price impact is above threshold in non expert mode

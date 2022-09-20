@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { CurrencyAmount, JSBI, Token, Trade, TokenAmount } from '@scads/sdk'
+import React, { useCallback, useEffect, useState } from 'react'
+import { JSBI, TokenAmount } from '@scads/sdk'
 import { Button, Box, Text } from '@scads/uikit'
 import { useTranslation } from 'contexts/Localization'
 import tokens from 'config/constants/tokens'
-import { DEFAULT_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
-import Column, { AutoColumn } from '../../components/Layout/Column'
+import { DEFAULT_TOKEN_DECIMAL } from 'config'
+import { AutoColumn } from '../../components/Layout/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { AppBody } from '../../components/App'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 import { Wrapper } from './components/styleds'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { Field } from '../../state/swap/actions'
-import { useCaratBuyBackInfo, useSwapActionHandlers, useSwapState, tryParseAmount } from '../../state/swap/hooks'
+import { useCaratBuyBackInfo, useSwapActionHandlers } from '../../state/swap/hooks'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import CurrencyInputHeader from './components/CurrencyInputHeader'
 import useCaratMint from './hooks/useCaratMint'
@@ -30,7 +30,6 @@ export default function CaratBuyBackCard() {
   )
 
   const {
-    currencyBalances,
     redeemAmount,
     inputError: swapInputError,
   } = useCaratBuyBackInfo(parsedTokenAmount, tokens.cake)

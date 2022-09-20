@@ -1,5 +1,5 @@
-import { Token, TokenAmount, CurrencyAmount } from '@scads/sdk'
-import { DEFAULT_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
+import { Token, TokenAmount } from '@scads/sdk'
+import { DEFAULT_TOKEN_DECIMAL } from 'config'
 import { useMemo } from 'react'
 import BigNumber from 'bignumber.js'
 import { useCaratTokenContract } from './useContract'

@@ -1,13 +1,13 @@
 import React, { lazy } from 'react'
 import { Router, Redirect, Route, Switch } from 'react-router-dom'
 import { ResetCSS } from '@scads/uikit'
-import { useWeb3React } from '@web3-react/core'
+// import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
 import useEagerConnect from 'hooks/useEagerConnect'
 import useUserAgent from 'hooks/useUserAgent'
 import useScrollOnRouteChange from 'hooks/useScrollOnRouteChange'
 import { usePollBlockNumber } from 'state/block/hooks'
-import { usePollCoreFarmData } from 'state/farms/hooks'
+// import { usePollCoreFarmData } from 'state/farms/hooks'
 import { useFetchProfile } from 'state/profile/hooks'
 import SubgraphHealthIndicator from 'components/SubgraphHealthIndicator'
 import GlobalStyle from './style/Global'
@@ -42,7 +42,7 @@ const AddLiquidity = lazy(() => import('./views/AddLiquidity'))
 const Liquidity = lazy(() => import('./views/Pool'))
 const PoolFinder = lazy(() => import('./views/PoolFinder'))
 const RemoveLiquidity = lazy(() => import('./views/RemoveLiquidity'))
-const Info = lazy(() => import('./views/Info'))
+// const Info = lazy(() => import('./views/Info'))
 const ScadsMint = lazy(() => import('./views/ScadsMint'))
 const CaratMint = lazy(() => import('./views/CaratMint'))
 
@@ -53,7 +53,7 @@ BigNumber.config({
 })
 
 const App: React.FC = () => {
-  const { account } = useWeb3React()
+  // const { account } = useWeb3React()
 
   usePollBlockNumber()
   useEagerConnect()

@@ -8,7 +8,7 @@ import { PoolCategory } from 'config/constants/types'
 import { DeserializedPool } from 'state/types'
 import Balance from 'components/Balance'
 import { useCaratAmountUSD } from 'hooks/useBUSDPrice'
-import { getFullDisplayBalance, getBalanceNumber, formatNumber } from 'utils/formatBalance'
+import { getBalanceNumber } from 'utils/formatBalance'
 import ApprovalAction from './ApprovalAction'
 import StakeActions from './StakeActions'
 import HarvestActions from './HarvestActions'
@@ -23,7 +23,7 @@ interface CardActionsProps {
 }
 
 const ScadsCardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
-  const { sousId, stakingToken, earningToken, harvest, poolCategory, userData, earningTokenPrice } = pool
+  const { sousId, stakingToken, earningToken, poolCategory, userData, earningTokenPrice } = pool
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE
   const { t } = useTranslation()
@@ -37,8 +37,8 @@ const ScadsCardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) =
 
   const earningScadsBalance = getBalanceNumber(earnings, earningToken.decimals)
   const earningScadsUSDBalance = getBalanceNumber(earnings.multipliedBy(earningTokenPrice), earningToken.decimals)
-  const earningCaratBalance = getBalanceNumber(earningCarat, earningToken.decimals)
-  const earningCaratUSDBalance = useCaratAmountUSD(earningCarat)
+  // const earningCaratBalance = getBalanceNumber(earningCarat, earningToken.decimals)
+  // const earningCaratUSDBalance = useCaratAmountUSD(earningCarat)
 
   return (
     <Flex flexDirection="column">
