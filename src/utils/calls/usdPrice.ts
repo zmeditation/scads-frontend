@@ -8,9 +8,6 @@ export const useBtcUSDPrice = () => {
       .then((data) => {
         setPrice(data.bitcoin.usd)
       })
-      .catch((err) => {
-        console.log(err)
-      })
   }, [])
 
   return price
@@ -23,9 +20,6 @@ export const useEthUSDPrice = () => {
       .then((res) => res.json())
       .then((data) => {
         setPrice(data.ethereum.usd)
-      })
-      .catch((err) => {
-        console.log(err)
       })
   }, [])
 

@@ -45,11 +45,11 @@ const Container = styled.div`
 `
 interface CurrencyInputPanelProps {
   value: string
-  onUserInput: (value: string) => void
+  onUserInput?: (value: string) => void
   onMax?: () => void
   showMaxButton: boolean
   label?: string
-  onCurrencySelect: (currency: Currency) => void
+  onCurrencySelect?: (currency: Currency) => void
   currency?: Currency | null
   disableCurrencySelect?: boolean
   hideBalance?: boolean

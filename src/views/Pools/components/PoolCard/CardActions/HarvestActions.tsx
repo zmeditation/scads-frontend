@@ -22,7 +22,6 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
   sousId,
   isBnbPool,
   earningTokenPrice,
-  isLoading = false,
 }) => {
   const { t } = useTranslation()
   const earningTokenBalance = getBalanceNumber(earnings, earningToken.decimals)
@@ -44,7 +43,6 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
       isCompoundPool={isCompoundPool}
     />,
   )
-  console.log(isLoading);
   return (
     <Flex justifyContent="center" alignItems="center" mb="16px">
       <Button disabled={!hasEarnings} onClick={onPresentCollect} width="100%" style={{ marginTop: '8px' }}>

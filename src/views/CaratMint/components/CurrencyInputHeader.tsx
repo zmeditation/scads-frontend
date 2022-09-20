@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex, Heading, IconButton, Text } from '@scads/uikit'
-import { useExpertModeManager } from 'state/user/hooks'
+import { Flex, Heading, Text } from '@scads/uikit'
+// import { useExpertModeManager } from 'state/user/hooks'
 
 interface Props {
   title: string
@@ -18,7 +18,7 @@ const CurrencyInputContainer = styled(Flex)`
   border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
 `
 
-const CurrencyInputHeader: React.FC<Props> = ({ title, subtitle, setIsChartDisplayed, isChartDisplayed }) => {
+const CurrencyInputHeader: React.FC<Props> = ({ title, subtitle }) => {
   return (
     <CurrencyInputContainer>
       <Flex width="100%" alignItems="flex-start" justifyContent="center">

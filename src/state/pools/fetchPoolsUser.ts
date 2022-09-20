@@ -6,7 +6,7 @@ import { getAddress } from 'utils/addressHelpers'
 import { simpleRpcProvider } from 'utils/providers'
 import BigNumber from 'bignumber.js'
 
-import { getMasterchefContract, getScadsPoolContract, getCaratPoolContract } from 'utils/contractHelpers'
+import { getScadsPoolContract, getCaratPoolContract } from 'utils/contractHelpers'
 
 const scadsPoolContract = getScadsPoolContract()
 const caratPoolContract = getCaratPoolContract()

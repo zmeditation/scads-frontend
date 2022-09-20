@@ -44,11 +44,7 @@ export default function CaratBuyBackCard() {
 
   const { caratRedeem } = useCaratMint()
   const handleSwap = async () => {
-    try {
       await caratRedeem(parsedTokenAmount?.toExact())
-    } catch (e) {
-      console.log(e)
-    }
   }
 
   useEffect(() => {
@@ -69,7 +65,6 @@ export default function CaratBuyBackCard() {
                 showMaxButton={false}
                 currency={tokens.carat}
                 onUserInput={handleAmount}
-                onCurrencySelect={() => console.log('input currency select')}
                 otherCurrency={tokens.cake}
                 disableCurrencySelect={!false}
                 onlyInteger={!false}
@@ -78,11 +73,9 @@ export default function CaratBuyBackCard() {
 
               <CurrencyInputPanel
                 value={redeemAmount?.toExact()}
-                onUserInput={() => console.log('redeem amount')}
                 label={t('To')}
                 showMaxButton={false}
                 currency={tokens.cake}
-                onCurrencySelect={() => console.log('output currency select')}
                 otherCurrency={tokens.carat}
                 disableCurrencySelect={!false}
                 id="swap-currency-output"

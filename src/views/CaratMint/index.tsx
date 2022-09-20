@@ -13,7 +13,7 @@ const StyledFlex = styled(Flex)`
   }
 `
 
-export default function CaratMint({ history }: RouteComponentProps) {
+export default function CaratMint() {
   return (
     <Page>
       <Flex width="100%" justifyContent="center" position="relative">

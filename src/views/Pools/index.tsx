@@ -24,7 +24,7 @@ import FlexLayout from 'components/Layout/Flex'
 import Page from 'components/Layout/Page'
 import PageHeader from 'components/PageHeader'
 import { DeserializedPool } from 'state/types'
-import { useUserPoolStakedOnly, useUserPoolsViewMode } from 'state/user/hooks'
+import { useUserPoolStakedOnly } from 'state/user/hooks'
 import { usePoolsWithVault } from 'views/Home/hooks/useGetTopPoolsByApr'
 // import { BIG_ZERO } from 'utils/bigNumber'
 import Loading from 'components/Loading'
@@ -68,8 +68,10 @@ const Pools: React.FC = () => {
   // const [viewMode, setViewMode] = useUserPoolsViewMode()
   const [numberOfPoolsVisible, setNumberOfPoolsVisible] = useState(NUMBER_OF_POOLS_VISIBLE)
   const { observerRef, isIntersecting } = useIntersectionObserver()
-  const [searchQuery, setSearchQuery] = useState('')
-  const [sortOption, setSortOption] = useState('hot')
+  // const [searchQuery, setSearchQuery] = useState('')
+  const searchQuery = ''
+  // const [sortOption, setSortOption] = useState('hot')
+  const sortOption = 'hot'
   const chosenPoolsLength = useRef(0)
   const vaultPools = useVaultPools()
   // const cakeInVaults = Object.values(vaultPools).reduce((total, vault) => {
@@ -126,59 +128,59 @@ const Pools: React.FC = () => {
 
   const sortPools = (poolsToSort: DeserializedPool[]) => {
     switch (sortOption) {
-      case 'apr':
-        // Ternary is needed to prevent pools without APR (like MIX) getting top spot
-        return orderBy(poolsToSort, (pool: DeserializedPool) => (pool.apr ? pool.apr : 0), 'desc')
-      case 'earned':
-        return orderBy(
-          poolsToSort,
-          (pool: DeserializedPool) => {
-            if (!pool.userData || !pool.earningTokenPrice) {
-              return 0
-            }
-            return pool.vaultKey
-              ? getCakeVaultEarnings(
-                  account,
-                  vaultPools[pool.vaultKey].userData.cakeAtLastUserAction,
-                  vaultPools[pool.vaultKey].userData.userShares,
-                  vaultPools[pool.vaultKey].pricePerFullShare,
-                  pool.earningTokenPrice,
-                ).autoUsdToDisplay
-              : pool.userData.pendingReward.times(pool.earningTokenPrice).toNumber()
-          },
-          'desc',
-        )
-      case 'totalStaked':
-        return orderBy(
-          poolsToSort,
-          (pool: DeserializedPool) => {
-            let totalStaked = Number.NaN
-            // if (pool.vaultKey) {
-            //   if (pool.stakingTokenPrice && vaultPools[pool.vaultKey].totalCakeInVault.isFinite()) {
-            //     totalStaked =
-            //       +formatUnits(
-            //         ethers.BigNumber.from(vaultPools[pool.vaultKey].totalCakeInVault.toString()),
-            //         pool.stakingToken.decimals,
-            //       ) * pool.stakingTokenPrice
-            //   }
-            // } else if (pool.sousId === 0) {
-            //   if (pool.totalStaked?.isFinite() && pool.stakingTokenPrice && cakeInVaults.isFinite()) {
-            //     const manualCakeTotalMinusAutoVault = ethers.BigNumber.from(pool.totalStaked.toString()).sub(
-            //       cakeInVaults.toString(),
-            //     )
-            //     totalStaked =
-            //       +formatUnits(manualCakeTotalMinusAutoVault, pool.stakingToken.decimals) * pool.stakingTokenPrice
-            //   }
-            // } else
-            if (pool.totalStaked?.isFinite() && pool.stakingTokenPrice) {
-              totalStaked =
-                +formatUnits(ethers.BigNumber.from(pool.totalStaked.toString()), pool.stakingToken.decimals) *
-                pool.stakingTokenPrice
-            }
-            return Number.isFinite(totalStaked) ? totalStaked : 0
-          },
-          'desc',
-        )
+      // case 'apr':
+      //   // Ternary is needed to prevent pools without APR (like MIX) getting top spot
+      //   return orderBy(poolsToSort, (pool: DeserializedPool) => (pool.apr ? pool.apr : 0), 'desc')
+      // case 'earned':
+      //   return orderBy(
+      //     poolsToSort,
+      //     (pool: DeserializedPool) => {
+      //       if (!pool.userData || !pool.earningTokenPrice) {
+      //         return 0
+      //       }
+      //       return pool.vaultKey
+      //         ? getCakeVaultEarnings(
+      //             account,
+      //             vaultPools[pool.vaultKey].userData.cakeAtLastUserAction,
+      //             vaultPools[pool.vaultKey].userData.userShares,
+      //             vaultPools[pool.vaultKey].pricePerFullShare,
+      //             pool.earningTokenPrice,
+      //           ).autoUsdToDisplay
+      //         : pool.userData.pendingReward.times(pool.earningTokenPrice).toNumber()
+      //     },
+      //     'desc',
+      //   )
+      // case 'totalStaked':
+      //   return orderBy(
+      //     poolsToSort,
+      //     (pool: DeserializedPool) => {
+      //       let totalStaked = Number.NaN
+      //       // if (pool.vaultKey) {
+      //       //   if (pool.stakingTokenPrice && vaultPools[pool.vaultKey].totalCakeInVault.isFinite()) {
+      //       //     totalStaked =
+      //       //       +formatUnits(
+      //       //         ethers.BigNumber.from(vaultPools[pool.vaultKey].totalCakeInVault.toString()),
+      //       //         pool.stakingToken.decimals,
+      //       //       ) * pool.stakingTokenPrice
+      //       //   }
+      //       // } else if (pool.sousId === 0) {
+      //       //   if (pool.totalStaked?.isFinite() && pool.stakingTokenPrice && cakeInVaults.isFinite()) {
+      //       //     const manualCakeTotalMinusAutoVault = ethers.BigNumber.from(pool.totalStaked.toString()).sub(
+      //       //       cakeInVaults.toString(),
+      //       //     )
+      //       //     totalStaked =
+      //       //       +formatUnits(manualCakeTotalMinusAutoVault, pool.stakingToken.decimals) * pool.stakingTokenPrice
+      //       //   }
+      //       // } else
+      //       if (pool.totalStaked?.isFinite() && pool.stakingTokenPrice) {
+      //         totalStaked =
+      //           +formatUnits(ethers.BigNumber.from(pool.totalStaked.toString()), pool.stakingToken.decimals) *
+      //           pool.stakingTokenPrice
+      //       }
+      //       return Number.isFinite(totalStaked) ? totalStaked : 0
+      //     },
+      //     'desc',
+      //   )
       default:
         return poolsToSort
     }
@@ -191,12 +193,12 @@ const Pools: React.FC = () => {
     chosenPools = stakedOnly ? stakedOnlyOpenPools : openPools
   }
 
-  if (searchQuery) {
-    const lowercaseQuery = latinise(searchQuery.toLowerCase())
-    chosenPools = chosenPools.filter((pool) =>
-      latinise(pool.earningToken.symbol.toLowerCase()).includes(lowercaseQuery),
-    )
-  }
+  // if (searchQuery) {
+  //   const lowercaseQuery = latinise(searchQuery.toLowerCase())
+  //   chosenPools = chosenPools.filter((pool) =>
+  //     latinise(pool.earningToken.symbol.toLowerCase()).includes(lowercaseQuery),
+  //   )
+  // }
 
   chosenPools = sortPools(chosenPools).slice(0, numberOfPoolsVisible)
   chosenPoolsLength.current = chosenPools.length

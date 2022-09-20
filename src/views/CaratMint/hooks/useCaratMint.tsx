@@ -7,15 +7,14 @@ const useCaratMint = () => {
 
   const handleBuy = useCallback(
     async (amount: string) => {
-      const txHash = await caratBuy(caratContract, amount)
-      console.info(txHash)
+      await caratBuy(caratContract, amount)
     },
     [caratContract],
   )
 
   const handleRedeem = useCallback(
     async (amount: string) => {
-      const txHash = await caratRedeem(caratContract, amount)
+      await caratRedeem(caratContract, amount)
     },
     [caratContract],
   )

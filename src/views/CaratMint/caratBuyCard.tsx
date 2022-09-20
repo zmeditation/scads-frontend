@@ -62,11 +62,7 @@ export default function CaratBuyCard() {
 
   const { caratBuy } = useCaratMint()
   const handleSwap = async () => {
-    try {
       await caratBuy(parsedTokenAmount?.toExact())
-    } catch (e) {
-      console.log(e)
-    }
   }
 
   // errors
@@ -96,8 +92,6 @@ export default function CaratBuyCard() {
                 value={requiredAmount?.toExact()}
                 showMaxButton={false}
                 currency={tokens.cake}
-                onUserInput={() => console.log('required amount')}
-                onCurrencySelect={() => console.log('input currency select')}
                 otherCurrency={tokens.carat}
                 disableCurrencySelect={!false}
                 id="swap-currency-input"
@@ -109,7 +103,6 @@ export default function CaratBuyCard() {
                 label={t('To')}
                 showMaxButton={false}
                 currency={tokens.carat}
-                onCurrencySelect={() => console.log('output currency select')}
                 otherCurrency={tokens.cake}
                 disableCurrencySelect={!false}
                 onlyInteger={!false}

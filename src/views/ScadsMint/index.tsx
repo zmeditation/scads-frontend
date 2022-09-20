@@ -186,12 +186,8 @@ export default function ScadsMint({ history }: RouteComponentProps) {
 
   const { scadsMint } = useScadsMint()
   const handleSwap = async () => {
-    try {
       const stableCoin = currencies[Field.INPUT] as Token
       await scadsMint(formattedAmounts[Field.INPUT], stableCoin.address)
-    } catch (e) {
-      console.log('error', e)
-    }
   }
 
   // warnings on slippage

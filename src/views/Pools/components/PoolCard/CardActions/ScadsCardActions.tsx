@@ -7,7 +7,7 @@ import { useTranslation } from 'contexts/Localization'
 import { PoolCategory } from 'config/constants/types'
 import { DeserializedPool } from 'state/types'
 import Balance from 'components/Balance'
-import { useCaratAmountUSD } from 'hooks/useBUSDPrice'
+// import { useCaratAmountUSD } from 'hooks/useBUSDPrice'
 import { getBalanceNumber } from 'utils/formatBalance'
 import ApprovalAction from './ApprovalAction'
 import StakeActions from './StakeActions'
@@ -30,7 +30,7 @@ const ScadsCardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) =
   const allowance = userData?.allowance ? new BigNumber(userData.allowance) : BIG_ZERO
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
   const earnings = userData?.pendingReward ? new BigNumber(userData.pendingReward) : BIG_ZERO
-  const earningCarat = userData?.userInfo?.rewardDebtCarat ? new BigNumber(userData.userInfo.rewardDebtCarat) : BIG_ZERO
+  // const earningCarat = userData?.userInfo?.rewardDebtCarat ? new BigNumber(userData.userInfo.rewardDebtCarat) : BIG_ZERO
   const needsApproval = !allowance.gt(0) && !isBnbPool
   const isStaked = stakedBalance.gt(0)
   const isLoading = !userData
