@@ -89,7 +89,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
               sousId={sousId}
               earningTokenPrice={earningTokenPrice}
               isBnbPool={isBnbPool}
-              isLoading={isLoading}
+              // isLoading={isLoading}
             />
           </>
         )}
