@@ -35,7 +35,6 @@ const InputPanel = styled.div`
   flex-flow: column nowrap;
   position: relative;
   border-radius: '20px';
-  background-color: ${({ theme }) => theme.colors.backgroundAlt};
   z-index: 1;
 `
 const Container = styled.div`
@@ -45,11 +44,11 @@ const Container = styled.div`
 `
 interface CurrencyInputPanelProps {
   value: string
-  onUserInput?: (value: string) => void
+  onUserInput: (value: string) => void
   onMax?: () => void
   showMaxButton: boolean
   label?: string
-  onCurrencySelect?: (currency: Currency) => void
+  onCurrencySelect: (currency: Currency) => void
   currency?: Currency | null
   disableCurrencySelect?: boolean
   hideBalance?: boolean

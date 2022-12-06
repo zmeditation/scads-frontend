@@ -19,7 +19,11 @@ export default Card
 
 export const LightCard = styled(Card)`
   border: 1px solid ${({ theme }) => theme.colors.background};
-  background-color: ${({ theme }) => theme.colors.backgroundAlt};
+  background: ${({ theme }) => theme.colors.backgroundAlt};
+`
+
+export const FooterCard = styled.div`
+  padding: 25px;
 `
 
 export const LightGreyCard = styled(Card)`

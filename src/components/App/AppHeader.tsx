@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Text, Flex, Heading, IconButton, ArrowBackIcon } from '@scads/uikit'
+import { Text, Flex, Heading, IconButton, ArrowBackIcon, NotificationDot } from '@scads/uikit'
 import { Link } from 'react-router-dom'
-// import { useExpertModeManager } from 'state/user/hooks'
-// import Transactions from './Transactions'
+import { useExpertModeManager } from 'state/user/hooks'
+import Transactions from './Transactions'
 import QuestionHelper from '../QuestionHelper'
 
 interface Props {
@@ -19,11 +19,13 @@ const AppHeaderContainer = styled(Flex)`
   justify-content: space-between;
   padding: 24px;
   width: 100%;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border-bottom: 1px solid transparent;
+  border-image: ${({ theme }) => theme.colors.gradients.gold};
+  border-image-slice: 1;
 `
 
 const AppHeader: React.FC<Props> = ({ title, subtitle, helper, backTo, noConfig = false }) => {
-  // const [expertMode] = useExpertModeManager()
+  const [expertMode] = useExpertModeManager()
 
   return (
     <AppHeaderContainer>

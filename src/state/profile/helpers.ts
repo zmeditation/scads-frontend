@@ -1,4 +1,4 @@
-// import Cookies from 'js-cookie'
+import Cookies from 'js-cookie'
 import { Profile } from 'state/types'
 import { GetUserProfileResponse } from 'utils/types'
 import { getProfileContract } from 'utils/contractHelpers'
@@ -51,9 +51,6 @@ export const getProfileAvatar = async (address: string) => {
     if (!hasRegistered) {
       return null
     }
-
-    // const profileResponse = await profileContract.getUserProfile(address)
-    // const { tokenId, collectionAddress, isActive } = transformProfileResponse(profileResponse)
 
     const nft = null
 

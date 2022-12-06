@@ -50,6 +50,7 @@ import ENS_ABI from '../config/abi/ens-registrar.json'
 import { ERC20_BYTES32_ABI } from '../config/abi/erc20'
 import ERC20_ABI from '../config/abi/erc20.json'
 import CARAT_ABI from '../config/abi/caratContract.json'
+import PULSE_ABI from '../config/abi/pulseContract.json'
 import WETH_ABI from '../config/abi/weth.json'
 import multiCallAbi from '../config/abi/Multicall.json'
 import { getContract, getProviderOrSigner } from '../utils'
@@ -295,6 +296,10 @@ export function useTokenContract(tokenAddress?: string, withSignerIfPossible?: b
 
 export function useCaratTokenContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
   return useContract(tokenAddress, CARAT_ABI, withSignerIfPossible)
+}
+
+export function usePulseContract(tokenAddress?: string, withSignerIfPossible?: boolean): Contract | null {
+  return useContract(tokenAddress, PULSE_ABI, withSignerIfPossible)
 }
 
 export function useWETHContract(withSignerIfPossible?: boolean): Contract | null {

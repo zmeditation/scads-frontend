@@ -1,13 +1,13 @@
-import { Button, Flex } from '@scads/uikit'
+import { Button, Flex, Heading } from '@scads/uikit'
 import { useWeb3React } from '@web3-react/core'
 import BigNumber from 'bignumber.js'
-// import Balance from 'components/Balance'
+import Balance from 'components/Balance'
 import { useTranslation } from 'contexts/Localization'
 import useToast from 'hooks/useToast'
 import React, { useState } from 'react'
 import { useAppDispatch } from 'state'
 import { fetchFarmUserDataAsync } from 'state/farms'
-// import { usePriceCakeBusd } from 'state/farms/hooks'
+import { usePriceCakeBusd } from 'state/farms/hooks'
 import { BIG_ZERO } from 'utils/bigNumber'
 import { getBalanceAmount } from 'utils/formatBalance'
 import { logError } from 'utils/sentry'
@@ -24,7 +24,7 @@ const HarvestAction: React.FC<FarmCardActionsProps> = ({ earnings, pid }) => {
   const { t } = useTranslation()
   const [pendingTx, setPendingTx] = useState(false)
   const { onReward } = useHarvestFarm(pid)
-  // const cakePrice = usePriceCakeBusd()
+  const cakePrice = usePriceCakeBusd()
   const dispatch = useAppDispatch()
   const rawEarningsBalance = account ? getBalanceAmount(earnings) : BIG_ZERO
 

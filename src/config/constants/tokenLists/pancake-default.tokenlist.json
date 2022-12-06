@@ -29,26 +29,10 @@
     {
       "name": "BUSD Token",
       "symbol": "BUSD",
-      "address": "0xD0F7d3611d2faDc1838FBAc6c2Dbe19EC8cCE359",
+      "address": "0x92fdA62B5C80d7a5e35dD5CCb7A7fb92311BE364",
       "chainId": 97,
       "decimals": 18,
       "logoURI": "https://pancakeswap.finance/images/tokens/0xe9e7cea3dedca5984780bafc599bd69add087d56.png"
-    },
-    {
-      "name": "Ethereum Token",
-      "symbol": "ETH",
-      "address": "0xd26ddc719E157f67b7f194Bccddb6023328239DE",
-      "chainId": 97,
-      "decimals": 18,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x2170ed0880ac9a755fd29b2688956bd959f933f8.png"
-    },
-    {
-      "name": "BTCB Token",
-      "symbol": "BTCB",
-      "address": "0xf486789B0B704470EFc2d5Bc295C3eCbc80882f3",
-      "chainId": 97,
-      "decimals": 18,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c.png"
     },
     {
       "name": "Tether USD",
@@ -59,36 +43,20 @@
       "logoURI": "https://pancakeswap.finance/images/tokens/0x55d398326f99059ff775485246999027b3197955.png"
     },
     {
-      "name": "ScadsSwap Token",
-      "symbol": "Scads",
-      "address": "0xF6514aB59894790A0448dca33aa6A604a2Ea971f",
-      "chainId": 97,
-      "decimals": 0,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82.png"
-    },
-    {
-      "name": "ScadsSwap Token",
-      "symbol": "Carat",
-      "address": "0xc87C91e6E17dc97453293dd735D6ccD5fdC29073",
+      "name": "Tether USD",
+      "symbol": "USDT",
+      "address": "0xb06D957d777e3dC7f3794e732DB45092AC8C5cF0",
       "chainId": 97,
       "decimals": 18,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82.png"
+      "logoURI": "https://pancakeswap.finance/images/tokens/0x55d398326f99059ff775485246999027b3197955.png"
     },
     {
-      "name": "ScadsSwap Token",
-      "symbol": "BtcSnacks",
-      "address": "0x3721783B82f50cA9ed77d65117930066c57C1cFD",
+      "name": "USD Coin",
+      "symbol": "USDC",
+      "address": "0x497303D3573B20B75724D7C3f1B39B19E72a0f53",
       "chainId": 97,
       "decimals": 18,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82.png"
-    },
-    {
-      "name": "ScadsSwap Token",
-      "symbol": "EthSnacks",
-      "address": "0xbA0EDe81112Fdd46690FA5C7e014d8aB313679d5",
-      "chainId": 97,
-      "decimals": 18,
-      "logoURI": "https://pancakeswap.finance/images/tokens/0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82.png"
+      "logoURI": "https://pancakeswap.finance/images/tokens/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d.png"
     },
     {
       "name": "Venus",
@@ -161,6 +129,38 @@
       "chainId": 56,
       "decimals": 18,
       "logoURI": "https://pancakeswap.finance/images/tokens/0xa7f552078dcc247c2684336020c03648500c6d9f.png"
+    },
+    {
+      "name": "BTCB Token",
+      "symbol": "BTCB",
+      "address": "0xf486789B0B704470EFc2d5Bc295C3eCbc80882f3",
+      "chainId": 97,
+      "decimals": 18,
+      "logoURI": "https://pancakeswap.finance/images/tokens/0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c.png"
+    },
+    {
+      "name": "Ethereum Token",
+      "symbol": "ETH",
+      "address": "0xd26ddc719E157f67b7f194Bccddb6023328239DE",
+      "chainId": 97,
+      "decimals": 18,
+      "logoURI": "https://pancakeswap.finance/images/tokens/0x2170ed0880ac9a755fd29b2688956bd959f933f8.png"
+    },
+    {
+      "name": "ScadsSwap Token",
+      "symbol": "Scads",
+      "address": "0x3Fe73cb84490Cb3dBFFB6544c46B28364CDA44AC",
+      "chainId": 97,
+      "decimals": 18,
+      "logoURI": "https://pancakeswap.finance/images/tokens/0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82.png"
+    },
+    {
+      "name": "ScadsSwap Token",
+      "symbol": "Carat",
+      "address": "0x092A5E4145be4043F2af96Ac706F6D03AF6c7A6e",
+      "chainId": 97,
+      "decimals": 18,
+      "logoURI": "https://pancakeswap.finance/images/tokens/0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82.png"
     }
   ]
 }

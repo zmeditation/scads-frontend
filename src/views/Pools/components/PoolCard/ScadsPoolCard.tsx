@@ -16,7 +16,7 @@ const ScadsPoolCard: React.FC<{ pool: DeserializedPool; account: string }> = ({ 
   const { sousId, stakingToken, earningToken, isFinished, userData } = pool
   const { t } = useTranslation()
   const stakedBalance = userData?.stakedBalance ? new BigNumber(userData.stakedBalance) : BIG_ZERO
-  // const accountHasStakedBalance = stakedBalance.gt(0)
+  const accountHasStakedBalance = stakedBalance.gt(0)
 
   const isCakePool = earningToken.symbol === 'SCADS' && stakingToken.symbol === 'SCADS'
 
@@ -25,9 +25,7 @@ const ScadsPoolCard: React.FC<{ pool: DeserializedPool; account: string }> = ({ 
       isFinished={isFinished && sousId !== 0}
       ribbon={isFinished && <CardRibbon variantColor="textDisabled" text={t('Finished')} />}
     >
-      <PoolCardHeader 
-      // isStaking={accountHasStakedBalance} 
-      isFinished={isFinished && sousId !== 0}>
+      <PoolCardHeader isStaking={accountHasStakedBalance} isFinished={isFinished && sousId !== 0}>
         <PoolCardHeaderTitle
           title={isCakePool ? t('Manual') : t('Earn %asset%', { asset: earningToken.symbol })}
           subTitle={isCakePool ? t('Earn Scads, stake Scads') : t('Stake %symbol%', { symbol: stakingToken.symbol })}

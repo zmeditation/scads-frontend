@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { usePriceCakeBusd } from 'state/farms/hooks'
 import { useAppDispatch } from 'state'
 import { orderBy } from 'lodash'
-import { DeserializedPool } from 'state/types'
+import { VaultKey, DeserializedPool } from 'state/types'
 import { fetchCakeVaultFees, fetchPoolsPublicDataAsync } from 'state/pools'
-import { usePools } from 'state/pools/hooks'
-// import { getAprData } from 'views/Pools/helpers'
+import { useCakeVault, useIfoPoolCreditBlock, useIfoPoolVault, usePools } from 'state/pools/hooks'
+import { getAprData } from 'views/Pools/helpers'
 
 enum FetchStatus {
   NOT_FETCHED = 'not-fetched',

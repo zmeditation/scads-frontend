@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
-import { CurrencyAmount, Token, Trade } from '@scads/sdk'
+import { CurrencyAmount, JSBI, Token, Trade } from '@scads/sdk'
 import {
   Button,
-  // Text,
+  Text,
   ArrowDownIcon,
   Box,
   useModal,
   Flex,
   IconButton,
-  // BottomDrawer,
-  // useMatchBreakpoints,
+  BottomDrawer,
+  useMatchBreakpoints,
   ArrowUpDownIcon,
 } from '@scads/uikit'
+import { utils, BigNumber } from 'ethers'
 import { RouteComponentProps } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
 import SwapWarningTokens from 'config/constants/swapWarningTokens'
@@ -21,14 +22,14 @@ import tokens from 'config/constants/tokens'
 import Column, { AutoColumn } from '../../components/Layout/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { AutoRow, RowBetween } from '../../components/Layout/Row'
-import { SwapCallbackError, Wrapper } from './components/styleds'
-// import TradePrice from './components/TradePrice'
+import { ArrowWrapper, SwapCallbackError, Wrapper } from './components/styleds'
+import TradePrice from './components/TradePrice'
 import ImportTokenWarningModal from './components/ImportTokenWarningModal'
 import ProgressSteps from './components/ProgressSteps'
 import { AppBody } from '../../components/App'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 
-// import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
+import { INITIAL_ALLOWED_SLIPPAGE } from '../../config/constants'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { useCurrency, useAllTokens } from '../../hooks/Tokens'
 import { ApprovalState, useApproveCallback } from '../../hooks/useApproveCallback'
@@ -39,11 +40,13 @@ import {
   useDerivedSwapInfo,
   useSwapActionHandlers,
   useSwapState,
-  // useSingleTokenSwapInfo,
+  useSingleTokenSwapInfo,
+  useScadsLatestMintDate,
+  useCaratSellPermission
 } from '../../state/swap/hooks'
-import { useExpertModeManager } from '../../state/user/hooks'
+import { useExpertModeManager, useUserSlippageTolerance } from '../../state/user/hooks'
 import { maxAmountSpend } from '../../utils/maxAmountSpend'
-// import { computeTradePriceBreakdown } from '../../utils/prices'
+import { computeTradePriceBreakdown, warningSeverity } from '../../utils/prices'
 import CircleLoader from '../../components/Loader/CircleLoader'
 import Page from '../Page'
 import SwapWarningModal from './components/SwapWarningModal'
@@ -72,6 +75,8 @@ const SwitchIconButton = styled(IconButton)`
 export default function ScadsMint({ history }: RouteComponentProps) {
   const loadedUrlParams = useDefaultsFromURLSearch()
   const { t } = useTranslation()
+  const latestMintDate = useScadsLatestMintDate()
+  const allowCaratSell = useCaratSellPermission();
 
   // token warning stuff
   const [loadedInputCurrency, loadedOutputCurrency] = [
@@ -97,27 +102,27 @@ export default function ScadsMint({ history }: RouteComponentProps) {
   const [isExpertMode] = useExpertModeManager()
 
   // get custom setting values for user
-  // const [allowedSlippage] = useUserSlippageTolerance()
+  const [allowedSlippage] = useUserSlippageTolerance()
 
   // swap state
-  const { independentField, typedValue } = useSwapState()
+  const { independentField, typedValue, recipient } = useSwapState()
   const { v2Trade, currencyBalances, parsedAmount, currencies, inputError: swapInputError } = useDerivedSwapInfo()
   // Price data
-  // const {
-  //   [Field.INPUT]: { currencyId: inputCurrencyId },
-  //   [Field.OUTPUT]: { currencyId: outputCurrencyId },
-  // } = useSwapState()
+  const {
+    [Field.INPUT]: { currencyId: inputCurrencyId },
+    [Field.OUTPUT]: { currencyId: outputCurrencyId },
+  } = useSwapState()
 
   const {
     wrapType,
-    // execute: onWrap,
-    // inputError: wrapInputError,
+    execute: onWrap,
+    inputError: wrapInputError,
   } = useWrapCallback(currencies[Field.INPUT], currencies[Field.OUTPUT], typedValue)
   const showWrap: boolean = wrapType !== WrapType.NOT_APPLICABLE
 
   const trade = showWrap ? undefined : v2Trade
 
-  // const singleTokenPrice = useSingleTokenSwapInfo()
+  const singleTokenPrice = useSingleTokenSwapInfo()
 
   const parsedAmounts = showWrap
     ? {
@@ -129,13 +134,13 @@ export default function ScadsMint({ history }: RouteComponentProps) {
         [Field.OUTPUT]: independentField === Field.OUTPUT ? parsedAmount : trade?.outputAmount,
       }
 
-  const { onSwitchTokens, onCurrencySelection, onUserInput } = useSwapActionHandlers()
+  const { onSwitchTokens, onCurrencySelection, onUserInput, onChangeRecipient } = useSwapActionHandlers()
   const isValid = !swapInputError
   const dependentField: Field = independentField === Field.INPUT ? Field.OUTPUT : Field.INPUT
 
   const handleTypeInput = useCallback(
     (value: string) => {
-      onUserInput(Field.OUTPUT, value)
+      onUserInput(Field.INPUT, value)
     },
     [onUserInput],
   )
@@ -147,7 +152,7 @@ export default function ScadsMint({ history }: RouteComponentProps) {
   )
 
   // modal and loading
-  const [{ swapErrorMessage }] = useState<{
+  const [{ tradeToConfirm, swapErrorMessage, attemptingTxn, txHash }, setSwapState] = useState<{
     tradeToConfirm: Trade | undefined
     attemptingTxn: boolean
     swapErrorMessage: string | undefined
@@ -180,18 +185,34 @@ export default function ScadsMint({ history }: RouteComponentProps) {
   }, [approval, approvalSubmitted])
 
   const maxAmountInput: CurrencyAmount | undefined = maxAmountSpend(currencyBalances[Field.INPUT])
-  // const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
+  const atMaxAmountInput = Boolean(maxAmountInput && parsedAmounts[Field.INPUT]?.equalTo(maxAmountInput))
 
-  // const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
+  const { priceImpactWithoutFee } = computeTradePriceBreakdown(trade)
 
   const { scadsMint } = useScadsMint()
   const handleSwap = async () => {
-      const stableCoin = currencies[Field.INPUT] as Token
-      await scadsMint(formattedAmounts[Field.INPUT], stableCoin.address)
+    if(allowCaratSell[0].gte(BigNumber.from(utils.parseEther('10000000')))){
+      window.alert('Carat amount more than 10M in market')
+    }else {
+      try {
+        const stableCoin = currencies[Field.INPUT] as Token
+        await scadsMint(formattedAmounts[Field.INPUT], stableCoin.address)
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    // else if(window.confirm("Warning: A 25% Penalty Applies to All Withdrawals Made within 24 Hours After Purchase")){
+    //   try {
+    //     const stableCoin = currencies[Field.INPUT] as Token
+    //     await scadsMint(formattedAmounts[Field.INPUT], stableCoin.address)
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
+    // }
   }
 
   // warnings on slippage
-  // const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
+  const priceImpactSeverity = warningSeverity(priceImpactWithoutFee)
 
   // show approve flow when: no error on inputs, not approved or pending, or approved in current session
   // never show if price impact is above threshold in non expert mode
@@ -277,13 +298,13 @@ export default function ScadsMint({ history }: RouteComponentProps) {
           <StyledSwapContainer $isChartExpanded={false}>
             <StyledInputCurrencyWrapper>
               <AppBody>
-                <CurrencyInputHeader title={t('Scads Mint')} subtitle={t('Buy Scads in an instant')} />
+                <CurrencyInputHeader title={t('Buy Scads')} subtitle={t('Buy Scads in an instant')} token={tokens.cake} />
                 <Wrapper id="swap-page">
                   <AutoColumn gap="md">
                     <CurrencyInputPanel
-                      label={t('From')}
+                      label={t('From (estimated)')}
                       value={formattedAmounts[Field.INPUT]}
-                      showMaxButton={false}
+                      showMaxButton={!false}
                       currency={currencies[Field.INPUT]}
                       onUserInput={handleTypeInput}
                       onMax={handleMaxInput}
@@ -291,30 +312,25 @@ export default function ScadsMint({ history }: RouteComponentProps) {
                       otherCurrency={currencies[Field.OUTPUT]}
                       disableCurrencySelect={false}
                       id="swap-currency-input"
-                      onlyInteger={!false}
-                    />
+                      onlyInteger={false}/>
 
-                    <AutoColumn justify="space-between">
+                    {/* <AutoColumn justify="space-between">
                       <AutoRow justify={isExpertMode ? 'space-between' : 'center'} style={{ padding: '0 1rem' }}>
                         <SwitchIconButton
                           variant="light"
                           scale="sm"
                           onClick={() => {
                             setApprovalSubmitted(false) // reset 2 step UI for approvals
-                            onSwitchTokens()
-                          }}
-                        >
+                            onSwitchTokens()}}>
                           <ArrowDownIcon
                             className="icon-down"
-                            color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? 'primary' : 'text'}
-                          />
+                            color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? 'primary' : 'text'}/>
                           <ArrowUpDownIcon
                             className="icon-up-down"
-                            color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? 'primary' : 'text'}
-                          />
+                            color={currencies[Field.INPUT] && currencies[Field.OUTPUT] ? 'primary' : 'text'}/>
                         </SwitchIconButton>
                       </AutoRow>
-                    </AutoColumn>
+                    </AutoColumn> */}
                     <CurrencyInputPanel
                       value={formattedAmounts[Field.INPUT]}
                       onUserInput={handleTypeOutput}
@@ -325,8 +341,7 @@ export default function ScadsMint({ history }: RouteComponentProps) {
                       otherCurrency={currencies[Field.INPUT]}
                       disableCurrencySelect={!false}
                       id="swap-currency-output"
-                      onlyInteger={!false}
-                    />
+                      onlyInteger={!false}/>
                   </AutoColumn>
                   <Box mt="1rem">
                     {!account ? (
@@ -337,8 +352,7 @@ export default function ScadsMint({ history }: RouteComponentProps) {
                           variant={approval === ApprovalState.APPROVED ? 'success' : 'primary'}
                           onClick={approveCallback}
                           disabled={approval !== ApprovalState.NOT_APPROVED || approvalSubmitted}
-                          width="48%"
-                        >
+                          width="48%">
                           {approval === ApprovalState.PENDING ? (
                             <AutoRow gap="6px" justify="center">
                               {t('Enabling')} <CircleLoader stroke="white" />
@@ -356,9 +370,8 @@ export default function ScadsMint({ history }: RouteComponentProps) {
                           }}
                           width="48%"
                           id="swap-button"
-                          disabled={!isValid || approval !== ApprovalState.APPROVED}
-                        >
-                          {t('Mint')}
+                          disabled={!isValid || approval !== ApprovalState.APPROVED}>
+                          {t('Buy')}
                         </Button>
                       </RowBetween>
                     ) : (
@@ -369,9 +382,8 @@ export default function ScadsMint({ history }: RouteComponentProps) {
                         }}
                         id="swap-button"
                         width="100%"
-                        disabled={!isValid}
-                      >
-                        {t('Mint')}
+                        disabled={!isValid}>
+                        {t('Buy')}
                       </Button>
                     )}
                     {showApproveFlow && (

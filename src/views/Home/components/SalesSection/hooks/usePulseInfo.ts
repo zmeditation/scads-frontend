@@ -1,13 +1,14 @@
-import { JSBI, TokenAmount } from '@scads/sdk'
-import { useTradeExactIn } from 'hooks/Trades'
-import { useTokenBalances } from 'state/wallet/hooks'
+import { useState } from 'react'
+import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade } from '@scads/sdk'
+import { useTradeExactIn, useTradeExactOut } from 'hooks/Trades'
+import { useTokenBalances, useCurrencyBalances } from 'state/wallet/hooks'
 import tokens from 'config/constants/tokens'
 import { getPulseAddress } from 'utils/addressHelpers'
 import { useCaratBuyBackInfo, tryParseAmount } from 'state/swap/hooks'
-import { useCaratBuyBackAmount } from 'hooks/useCaratTrade'
+import { useCaratBuyAmount, useCaratBuyBackAmount } from 'hooks/useCaratTrade'
 import { usePools } from 'state/pools/hooks'
 import { useFarmFromPid } from 'state/farms/hooks'
-import { getBalanceNumber } from 'utils/formatBalance'
+import { getBalanceNumber, getFullDisplayBalance } from 'utils/formatBalance'
 import BigNumber from 'bignumber.js'
 
 // from the current swap inputs, compute the best trade and return it.
@@ -29,9 +30,9 @@ export function usePulseInfo() {
     JSBI.divide(scadsBalance?.raw ?? JSBI.BigInt(0), JSBI.BigInt(10)),
   )
 
-  const { redeemAmount: redeemPartAmount } = useCaratBuyBackInfo(caratConvertAmount, tokens.cake)
+  const { redeemScadsAmount: redeemPartAmount } = useCaratBuyBackInfo(caratConvertAmount, tokens.cake)
 
-  const { redeemAmount: redeemTotalAmount } = useCaratBuyBackInfo(caratConvertAmount, tokens.cake)
+  const { redeemScadsAmount: redeemTotalAmount } = useCaratBuyBackInfo(caratConvertAmount, tokens.cake)
   const pulsePartAmount =
     parseFloat(scadsConvertAmount?.toExact() ?? '0') + parseFloat(redeemPartAmount?.toExact() ?? '0')
 

@@ -11,7 +11,7 @@ const farms: SerializedFarmConfig[] = [
     pid: 0,
     lpSymbol: 'Scads',
     lpAddresses: {
-      97: '0x9C21123D94b93361a29B2C2EFB3d5CD8B17e0A9e',
+      97: '0x3Fe73cb84490Cb3dBFFB6544c46B28364CDA44AC',
       56: '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82',
     },
     token: serializedTokens.syrup,
@@ -44,13 +44,46 @@ const farms: SerializedFarmConfig[] = [
     pid: 1,
     lpSymbol: 'Scads-BUSD LP',
     lpAddresses: {
-      97: '0x3aea236ccdf6e41421c8047303d37181bfa4cf63',
+      97: '0x9081905cbcD1f73d35923c417D22E91FDd08C5Af',
       56: '',
     },
     token: serializedTokens.cake,
     quoteToken: serializedTokens.busd,
     isCommunity: true,
   },
+  // {
+  //   pid: 2,
+  //   lpSymbol: 'Scads-Carat LP',
+  //   lpAddresses: {
+  //     97: '0x75aeA230DBBB176BC75974e81f21C86b5B822136',
+  //     56: '',
+  //   },
+  //   token: serializedTokens.cake,
+  //   quoteToken: serializedTokens.carat,
+  //   isCommunity: true,
+  // },
+  {
+    pid: 2,
+    lpSymbol: 'Scads-USDT LP',
+    lpAddresses: {
+      97: '0x82ed3866dD95A7FF24070Df32E1069a15E42D12c',
+      56: '',
+    },
+    token: serializedTokens.cake,
+    quoteToken: serializedTokens.usdt,
+    isCommunity: true,
+  },
+  {
+    pid: 3,
+    lpSymbol: 'Scads-USDC LP',
+    lpAddresses: {
+      97: '0xF4FAf4eE271BB6Ea7d49E356a7E85E026934AFD4',
+      56: '',
+    },
+    token: serializedTokens.cake,
+    quoteToken: serializedTokens.usdc,
+    isCommunity: true,
+  }
   // {
   //   pid: 498,
   //   lpSymbol: '8PAY-BUSD LP',

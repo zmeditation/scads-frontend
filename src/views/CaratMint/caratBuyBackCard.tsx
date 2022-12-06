@@ -1,85 +1,118 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { JSBI, TokenAmount } from '@scads/sdk'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { CurrencyAmount, JSBI, Token, Trade, TokenAmount } from '@scads/sdk'
 import { Button, Box, Text } from '@scads/uikit'
+import { ethers, utils, BigNumber } from 'ethers'
 import { useTranslation } from 'contexts/Localization'
 import tokens from 'config/constants/tokens'
-import { DEFAULT_TOKEN_DECIMAL } from 'config'
-import { AutoColumn } from '../../components/Layout/Column'
+import { DEFAULT_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
+import Column, { AutoColumn } from '../../components/Layout/Column'
 import CurrencyInputPanel from '../../components/CurrencyInputPanel'
 import { AppBody } from '../../components/App'
 import ConnectWalletButton from '../../components/ConnectWalletButton'
 import { Wrapper } from './components/styleds'
 import useActiveWeb3React from '../../hooks/useActiveWeb3React'
 import { Field } from '../../state/swap/actions'
-import { useCaratBuyBackInfo, useSwapActionHandlers } from '../../state/swap/hooks'
+import { useCaratBuyBackInfo, useScadsBuyBackInfo, useSwapActionHandlers, useSwapState, tryParseAmount,useCaratSellPermission } from '../../state/swap/hooks'
 import { StyledInputCurrencyWrapper, StyledSwapContainer } from './styles'
 import CurrencyInputHeader from './components/CurrencyInputHeader'
 import useCaratMint from './hooks/useCaratMint'
-import { LightCard } from '../../components/Card'
+import { FooterCard } from '../../components/Card'
 
 export default function CaratBuyBackCard() {
   const { t } = useTranslation()
+  const allowCaratSell = useCaratSellPermission();
+  const { account } = useActiveWeb3React();
+  // carat amount
+  const [amountInput, setAmountInput] = useState<string>();
+  // scads amount
+  const [amountOutput, setAmountOutput] = useState<string>();
 
-  const { account } = useActiveWeb3React()
-
-  const [amount, setAmount] = useState<string>()
-
-  const parsedTokenAmount = new TokenAmount(
+  const parsedCaratTokenAmount = new TokenAmount(
     tokens.carat,
-    amount ? JSBI.multiply(JSBI.BigInt(amount), JSBI.BigInt(DEFAULT_TOKEN_DECIMAL)) : '0',
+    amountInput ? JSBI.multiply(JSBI.BigInt(utils.parseEther(amountInput)), JSBI.BigInt(DEFAULT_TOKEN_DECIMAL)) : '0',
+  )
+
+  const parsedScadsTokenAmount = new TokenAmount(
+    tokens.cake,
+    amountOutput ? JSBI.multiply(JSBI.BigInt(utils.parseEther(amountOutput)), JSBI.BigInt(DEFAULT_TOKEN_DECIMAL)) : '0',
   )
 
   const {
-    redeemAmount,
+    currencyBalances,
+    redeemScadsAmount,
     inputError: swapInputError,
-  } = useCaratBuyBackInfo(parsedTokenAmount, tokens.cake)
+  } = useCaratBuyBackInfo(parsedCaratTokenAmount, tokens.cake)
+
+  // const scadsAmountInCarat = useScadsAmountInCaratContract()
+
+  const caratBalance = currencyBalances[Field.INPUT]?.toSignificant()
+  const scadsBalance = currencyBalances[Field.OUTPUT]?.toSignificant()
+
+  const {
+    redeemCaratAmount
+  } = useScadsBuyBackInfo(parsedScadsTokenAmount, tokens.carat)
 
   const isValid = !swapInputError
 
-  const { onCurrencySelection } = useSwapActionHandlers()
+  // input carat amount on carat input
+  const handleAmountInput = useCallback((value: string) => {
+    setAmountInput(value)
+    setAmountOutput('0.0')
+  }, [])
 
-  const handleAmount = useCallback((value: string) => {
-    setAmount(value) // onUserInput(Field.OUTPUT, value)
+  const handleAmountOutput = useCallback((value: string) => {
+    setAmountInput('0.0')
+    setAmountOutput(value)
   }, [])
 
   const { caratRedeem } = useCaratMint()
   const handleSwap = async () => {
-      await caratRedeem(parsedTokenAmount?.toExact())
+    if(allowCaratSell[0].lt(BigNumber.from(utils.parseEther('10000000')))){
+      window.alert('Carat amount less than 10M in market')
+    }else if(amountInput === '0.0') {
+      const res = redeemCaratAmount?.toExact()
+      await caratRedeem(res.toString())
+    }else if(amountInput !== '0.0') {
+      const res = utils.parseEther(amountInput)
+      await caratRedeem(res.toString())
+    }
   }
 
-  useEffect(() => {
-    onCurrencySelection(Field.INPUT, tokens.cake)
-    onCurrencySelection(Field.OUTPUT, tokens.carat)
-  }, [onCurrencySelection])
+  const handleMaxInput = () => {
+    setAmountInput(caratBalance)
+    setAmountOutput('0.0')
+  }
 
   return (
     <StyledSwapContainer $isChartExpanded={false}>
       <StyledInputCurrencyWrapper>
         <AppBody>
-          <CurrencyInputHeader title={t('Carat Buy Back')} subtitle={t('Redeem Carat in an instant')} />
+          <CurrencyInputHeader title={t('Carat Sell')} subtitle="Buy Scads with Carat" token={tokens.carat} />
           <Wrapper id="swap-page">
             <AutoColumn gap="md">
               <CurrencyInputPanel
                 label={t('From (estimated)')}
-                value={amount}
-                showMaxButton={false}
+                value={amountInput === '0.0' ? utils.formatEther(redeemCaratAmount?.toExact()) : amountInput}
+                showMaxButton={!false}
                 currency={tokens.carat}
-                onUserInput={handleAmount}
+                onUserInput={handleAmountInput}
+                onMax={()=>handleMaxInput()}
+                onCurrencySelect={() => console.log('input currency select')}
                 otherCurrency={tokens.cake}
                 disableCurrencySelect={!false}
-                onlyInteger={!false}
-                id="swap-currency-input"
-              />
+                onlyInteger={false}
+                id="swap-currency-input"/>
 
               <CurrencyInputPanel
-                value={redeemAmount?.toExact()}
+                value={amountOutput === '0.0' ? utils.formatEther(redeemScadsAmount?.toExact()) : amountOutput}
+                onUserInput={handleAmountOutput}
                 label={t('To')}
                 showMaxButton={false}
                 currency={tokens.cake}
+                onCurrencySelect={() => console.log('output currency select')}
                 otherCurrency={tokens.carat}
                 disableCurrencySelect={!false}
-                id="swap-currency-output"
-              />
+                id="swap-currency-output"/>
             </AutoColumn>
             <Box mt="1rem">
               {!account ? (
@@ -94,19 +127,19 @@ export default function CaratBuyBackCard() {
                   width="100%"
                   disabled={!isValid}
                 >
-                  {t('Claim')}
+                  {t('Sell')}
                 </Button>
               )}
             </Box>
           </Wrapper>
-          <LightCard>
+          <FooterCard>
             <Text fontSize="14px" style={{ textAlign: 'center' }}>
               <span role="img" aria-label="pancake-icon">
                 🥞
               </span>{' '}
-              {t('You can only claim WHOLE carat not partial. There are 10% claim fees')}
+              {t('You can only claim WHOLE carat not partial. 10% claim fees')}
             </Text>
-          </LightCard>
+          </FooterCard>
         </AppBody>
       </StyledInputCurrencyWrapper>
     </StyledSwapContainer>

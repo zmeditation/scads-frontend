@@ -4,21 +4,18 @@ import { useWeb3React } from '@web3-react/core'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTranslation } from 'contexts/Localization'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import CompositeImage, { CompositeImageProps } from '../CompositeImage'
-import Informations from './information'
 import PriceInfos from './priceInfos'
 
 export interface SalesSectionProps {
   headingText: string
   bodyText: string
   reverse: boolean
-  images: CompositeImageProps
 }
 
 const SalesSection: React.FC<SalesSectionProps> = (props) => {
   const { t } = useTranslation()
   const { account } = useWeb3React()
-  const { headingText, bodyText, reverse, images } = props
+  const { headingText, bodyText, reverse } = props
 
   const headingTranslatedText = t(headingText)
   const bodyTranslatedText = t(bodyText)
@@ -43,38 +40,21 @@ const SalesSection: React.FC<SalesSectionProps> = (props) => {
           <Heading scale="md" color="overlay">
             {bodyTranslatedText}
           </Heading>
-          <Flex flexDirection="column" flex="1" alignSelf={['flex-start', null, null, null]} mt="8px">
-            {!account && <ConnectWalletButton />}
-            <Flex mt="8px">
-              <RouterLink to="/swap">
-                <Button mr="8px" color="primary">
-                  {t('Trade Now')}
-                </Button>
-              </RouterLink>
-              <RouterLink to="/farms">
-                <Button color="primary">{t('Earn')}</Button>
-              </RouterLink>
-            </Flex>
+          <Flex flexDirection="row" flex="1" alignSelf={['flex-start', null, null, null]} mt="8px">
+            {!account && <ConnectWalletButton mr="8px"/>}
+            <RouterLink to="/mint/scads">
+              <Button color="primary">{t('Mint')}</Button>
+            </RouterLink>
           </Flex>
-        </Flex>
-        <Flex
-          height={['192px', null, null, '100%']}
-          width={['192px', null, null, '100%']}
-          flex={[null, null, null, '1']}
-          mb={['24px', null, null, '0']}
-        >
-          <CompositeImage {...images} />
         </Flex>
         <Flex
           height={['auto', null, null, '100%']}
           width={['100%', null, null, '100%']}
           flex={[null, null, null, '1']}
-          mb={['24px', null, null, '0']}
-        >
-          <Informations />
+          mb={['24px', null, null, '0']}>
+          <PriceInfos />
         </Flex>
       </Flex>
-      <PriceInfos />
     </Flex>
   )
 }

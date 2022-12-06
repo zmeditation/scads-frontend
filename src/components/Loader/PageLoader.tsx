@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-// import { Spinner } from '@scads/uikit'
+import { Spinner } from '@scads/uikit'
 import Page from '../Layout/Page'
 
 const Wrapper = styled(Page)`
@@ -10,7 +10,7 @@ const Wrapper = styled(Page)`
 `
 
 const PageLoader: React.FC = () => {
-  return <Wrapper>{/* <Spinner /> */}</Wrapper>
+  return <Wrapper><Spinner /></Wrapper>
 }
 
 export default PageLoader

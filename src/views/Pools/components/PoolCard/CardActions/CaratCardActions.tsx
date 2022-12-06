@@ -8,7 +8,7 @@ import { PoolCategory } from 'config/constants/types'
 import { DeserializedPool } from 'state/types'
 import Balance from 'components/Balance'
 import { useCaratAmountUSD, useEthSnacksAmountUSD, useBtcSnacksAmountUSD } from 'hooks/useBUSDPrice'
-import { getBalanceNumber } from 'utils/formatBalance'
+import { getFullDisplayBalance, getBalanceNumber, formatNumber } from 'utils/formatBalance'
 import ApprovalAction from './ApprovalAction'
 import StakeActions from './StakeActions'
 import HarvestActions from './HarvestActions'
@@ -23,7 +23,7 @@ interface CardActionsProps {
 }
 
 const CaratCardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
-  const { sousId, stakingToken, earningToken, poolCategory, userData, earningTokenPrice } = pool
+  const { sousId, stakingToken, earningToken, harvest, poolCategory, userData, earningTokenPrice } = pool
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE
   const { t } = useTranslation()
@@ -177,7 +177,7 @@ const CaratCardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) =
           sousId={sousId}
           earningTokenPrice={earningTokenPrice}
           isBnbPool={isBnbPool}
-          // isLoading={isLoading}
+          isLoading={isLoading}
         />
         <Box display="inline">
           <InlineText color={isStaked ? 'secondary' : 'textSubtle'} textTransform="uppercase" bold fontSize="12px">

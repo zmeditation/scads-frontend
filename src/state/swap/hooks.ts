@@ -1,4 +1,5 @@
 import { parseUnits } from '@ethersproject/units'
+import {utils} from 'ethers'
 import { Currency, CurrencyAmount, ETHER, JSBI, Token, TokenAmount, Trade } from '@scads/sdk'
 import { ParsedQs } from 'qs'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -39,7 +40,7 @@ import { derivedPairByDataIdSelector, pairByDataIdSelector } from './selectors'
 import { DEFAULT_INPUT_CURRENCY, DEFAULT_OUTPUT_CURRENCY } from './constants'
 import fetchDerivedPriceData from './fetch/fetchDerivedPriceData'
 import { pairHasEnoughLiquidity } from './fetch/utils'
-import { useCaratBuyAmount, useCaratBuyBackAmount } from '../../hooks/useCaratTrade'
+import { useCaratBuyAmount, useScadsBuyAmount, useCaratBuyBackAmount, useScadsBuyBackAmount,useCaratTotalSupply, useScadsLatestMintInfo, useLatestBoughtInfo, useMintedCaratAmount } from '../../hooks/useCaratTrade'
 
 export function useSwapState(): AppState['swap'] {
   return useSelector<AppState, AppState['swap']>((state) => state.swap)
@@ -254,7 +255,7 @@ export function useCaratBuyInfo(
   outputToken,
 ): {
   currencyBalances: { [field in Field]?: CurrencyAmount }
-  requiredAmount: CurrencyAmount | undefined
+  requiredScadsAmount: CurrencyAmount | undefined
   inputError?: string
 } {
   const { account } = useActiveWeb3React()
@@ -263,18 +264,17 @@ export function useCaratBuyInfo(
   // const inputCurrency = useCurrency(inputCurrencyId)
   // const outputCurrency = useCurrency(outputCurrencyId)
 
-  const requiredAmount = useCaratBuyAmount(tokenAmount, outputToken)
+  const requiredScadsAmount = useCaratBuyAmount(tokenAmount, outputToken)
 
   const relevantTokenBalances = useTokenBalances(account ?? undefined, [
     tokenAmount.token ?? undefined,
     outputToken ?? undefined,
   ])
-
   const currencyBalances = {
-    [Field.INPUT]: relevantTokenBalances[0],
-    [Field.OUTPUT]: relevantTokenBalances[1],
+    [Field.INPUT]: relevantTokenBalances[tokenAmount.token.address],
+    [Field.OUTPUT]: relevantTokenBalances[outputToken.address],
   }
-
+  
   let inputError: string | undefined
   if (!account) {
     inputError = t('Connect Wallet')
@@ -285,7 +285,7 @@ export function useCaratBuyInfo(
   }
 
   // compare input balance to max input based on version
-  const [balanceIn, amountIn] = [currencyBalances[Field.OUTPUT], requiredAmount]
+  const [balanceIn, amountIn] = [currencyBalances[Field.OUTPUT], requiredScadsAmount]
 
   if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
     inputError = t('Insufficient %symbol% balance', { symbol: amountIn.currency.symbol })
@@ -293,8 +293,20 @@ export function useCaratBuyInfo(
 
   return {
     currencyBalances,
-    requiredAmount,
+    requiredScadsAmount,
     inputError,
+  }
+}
+
+export function useScadsBuyInfo(
+  tokenAmount,
+  outputToken,
+): {
+  requiredCaratAmount: CurrencyAmount | undefined
+} {
+  const requiredCaratAmount = useScadsBuyAmount(tokenAmount, outputToken)
+  return {
+    requiredCaratAmount,
   }
 }
 
@@ -304,7 +316,7 @@ export function useCaratBuyBackInfo(
   outputToken,
 ): {
   currencyBalances: { [field in Field]?: CurrencyAmount }
-  redeemAmount: CurrencyAmount | undefined
+  redeemScadsAmount: CurrencyAmount | undefined
   inputError?: string
 } {
   const { account } = useActiveWeb3React()
@@ -313,16 +325,15 @@ export function useCaratBuyBackInfo(
   // const inputCurrency = useCurrency(inputCurrencyId)
   // const outputCurrency = useCurrency(outputCurrencyId)
 
-  const redeemAmount = useCaratBuyBackAmount(tokenAmount, outputToken)
-
+  const redeemScadsAmount = useCaratBuyBackAmount(tokenAmount, outputToken)
   const relevantTokenBalances = useTokenBalances(account ?? undefined, [
     tokenAmount?.token ?? undefined,
     outputToken ?? undefined,
   ])
 
   const currencyBalances = {
-    [Field.INPUT]: relevantTokenBalances[0],
-    [Field.OUTPUT]: relevantTokenBalances[1],
+    [Field.INPUT]: relevantTokenBalances[tokenAmount?.token.address],
+    [Field.OUTPUT]: relevantTokenBalances[outputToken.address],
   }
 
   let inputError: string | undefined
@@ -335,17 +346,48 @@ export function useCaratBuyBackInfo(
   }
 
   // compare input balance to max input based on version
-  const [balanceIn, amountIn] = [currencyBalances[Field.OUTPUT], redeemAmount]
+  const [balanceIn, amountIn] = [currencyBalances[Field.OUTPUT], redeemScadsAmount]
 
-  if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
-    inputError = t('Insufficient %symbol% balance', { symbol: amountIn.currency.symbol })
-  }
+  // if (balanceIn && amountIn && balanceIn.lessThan(amountIn)) {
+  //   inputError = t('Insufficient %symbol% balance', { symbol: amountIn.currency.symbol })
+  // }
 
   return {
     currencyBalances,
-    redeemAmount,
+    redeemScadsAmount,
     inputError,
   }
+}
+
+export function useScadsBuyBackInfo(
+  tokenAmount,
+  outputToken,
+): {
+  redeemCaratAmount: CurrencyAmount | undefined
+} {
+  const redeemCaratAmount = useScadsBuyBackAmount(tokenAmount, outputToken)
+
+  return {
+    redeemCaratAmount,
+  }
+}
+
+export function useCaratSellPermission () {
+  return useCaratTotalSupply()
+}
+
+export function useScadsLatestMintDate () {
+  const mintDate = useScadsLatestMintInfo()
+  return parseInt(mintDate?.lastestDayMinted)
+}
+
+export function useLatestBoughtData () {
+  const bourghtInfo = useLatestBoughtInfo()
+  return bourghtInfo
+}
+
+export function useUserMintedCaratAmount() {
+  return useMintedCaratAmount()
 }
 
 function parseCurrencyFromURLParameter(urlParam: any): string {

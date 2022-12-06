@@ -16,8 +16,6 @@ const caratPoolContract = getCaratPoolContract()
 const nonBnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol !== 'BNB')
 const bnbPools = poolsConfig.filter((pool) => pool.stakingToken.symbol === 'BNB')
 const nonMasterPools = poolsConfig.filter((pool) => pool.sousId >= 0)
-// const defaultPools = poolsConfig.filter((pool) => pool.sousId >= 0 && pool.sousId <= 1)
-// const masterChefContract = getMasterchefContract()
 
 export const fetchPoolsAllowance = async (account) => {
   const calls = nonBnbPools.map((pool) => ({
@@ -117,5 +115,6 @@ export const fetchUserInfos = async (account) => {
       lastWithdrawDate: new BigNumber(caratContractResponse.lastWithdrawDate._hex).toJSON(),
     },
   }
+  console.log(userInfos)
   return userInfos
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 export const useBtcUSDPrice = () => {
   const [price, setPrice] = useState(1)
@@ -7,6 +7,9 @@ export const useBtcUSDPrice = () => {
       .then((res) => res.json())
       .then((data) => {
         setPrice(data.bitcoin.usd)
+      })
+      .catch((err) => {
+        console.log(err)
       })
   }, [])
 
@@ -20,6 +23,9 @@ export const useEthUSDPrice = () => {
       .then((res) => res.json())
       .then((data) => {
         setPrice(data.ethereum.usd)
+      })
+      .catch((err) => {
+        console.log(err)
       })
   }, [])
 

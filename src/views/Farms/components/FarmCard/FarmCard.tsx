@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
-import { Card, Flex, Text, Skeleton } from '@scads/uikit'
+import { Flex, Text, Skeleton } from '@scads/uikit'
 import { DeserializedFarm } from 'state/types'
 import { getBscScanLink } from 'utils'
 import { useTranslation } from 'contexts/Localization'
 import ExpandableSectionButton from 'components/ExpandableSectionButton'
 import { BASE_ADD_LIQUIDITY_URL } from 'config'
 import { getAddress } from 'utils/addressHelpers'
-// import { useFarmUser } from 'state/farms/hooks'
 import getLiquidityUrlPathParts from 'utils/getLiquidityUrlPathParts'
 import DetailsSection from './DetailsSection'
 import CardHeading from './CardHeading'
@@ -21,8 +20,10 @@ export interface FarmWithStakedValue extends DeserializedFarm {
   liquidity?: BigNumber
 }
 
-const StyledCard = styled(Card)`
+const StyledCard = styled.div`
   align-self: baseline;
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border-radius: 20px;
 `
 
 const FarmCardInnerContainer = styled(Flex)`
@@ -33,7 +34,6 @@ const FarmCardInnerContainer = styled(Flex)`
 
 const ExpandingWrapper = styled.div`
   padding: 24px;
-  border-top: 2px solid ${({ theme }) => theme.colors.cardBorder};
   overflow: hidden;
 `
 
@@ -64,10 +64,9 @@ const FarmCard: React.FC<FarmCardProps> = ({ farm, displayApr, removed, cakePric
   })
   const addLiquidityUrl = `${BASE_ADD_LIQUIDITY_URL}/${liquidityUrlPathParts}`
   const lpAddress = getAddress(farm.lpAddresses)
-  const isPromotedFarm = farm.token.symbol === 'Scads'
 
   return (
-    <StyledCard isActive={isPromotedFarm}>
+    <StyledCard >
       <FarmCardInnerContainer>
         <CardHeading
           lpLabel={lpLabel}

@@ -1,8 +1,12 @@
-// import { useCaratPrice } from 'hooks/useBUSDPrice'
+import { useCaratPrice } from 'hooks/useBUSDPrice'
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { Flex, Heading } from '@scads/uikit'
+import { testnetTokens } from 'config/constants/tokens'
 import Timer from '../Timer'
 import { usePulseInfo } from './hooks/usePulseInfo'
+import usePulseCirculate, { checkPulse } from './hooks/usePulseCirculate'
+import PriceInfos from './priceInfos'
 
 const TimerLabelWrapper = styled.div`
   order: 3;
@@ -16,29 +20,15 @@ const TimerLabelWrapper = styled.div`
   }
 `
 
-const LabelValue = styled.div`
-  font-size: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: end;
+const StyledLabelValue = styled(Heading)`
+  background: ${({ theme }) => theme.colors.gradients.gold};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `
-// const TimerWrapper = styled.div`
-//   ${({ theme }) => theme.mediaQueries.sm} {
-//     margin-bottom: 16px;
-//   }
-//   margin-bottom: 8px;
-//   .custom-timer {
-//     background: url('/images/decorations/countdownBg.png');
-//     background-repeat: no-repeat;
-//     background-size: 100% 100%;
-//     padding: 0px 10px 7px;
-//     display: inline-flex;
-//   }
-// `
 
 const InfoDiv = styled.div`
   padding: 30px;
-  border: 1px white solid;
+  border: 1px solid ${({ theme }) => theme.colors.cardBorder};
   border-radius: 20px;
   margin-bottom: 20px;
 `
@@ -49,11 +39,17 @@ const SplitDiv = styled.div`
   width: 50%;
 `
 
+const SplitGradientDiv = styled(SplitDiv)`
+  border-left: 1px solid transparent;
+  border-image: ${({ theme }) => theme.colors.gradients.gold};
+  border-image-slice: 1;
+`
+
 const Informations = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft())
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setTimeLeft(calculateTimeLeft())
     }, 10000)
   })
@@ -78,19 +74,32 @@ const Informations = () => {
 
   const { nextPulsePartAmount, nextPulseTotalAmount, totalStakedUSD } = usePulseInfo()
 
+  const stableCoin = testnetTokens.busd;
+  const startCirculate = async() => {
+    try {
+        await checkPulse(stableCoin.address);
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  if(timeLeft.seconds === 0 && timeLeft.minutes === 0 && timeLeft.hours === 0) {
+    startCirculate()
+  }
+
   return (
     <>
       <TimerLabelWrapper>
-        <InfoDiv>
+        {/* <InfoDiv>
           <LabelValue
             style={{
-              fontSize: '24px',
+              fontSize: '20px',
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'end',
               marginBottom: '30px',
-            }}
-          >
+              color: '#cccccc',
+            }}>
             Next Pulse in &nbsp;
             <Timer
               wrapperClassName="custom-timer"
@@ -99,18 +108,19 @@ const Informations = () => {
               hours={timeLeft.hours}
             />
           </LabelValue>
-          <LabelValue>Next Pulse Amount is $ {nextPulsePartAmount?.outputAmount?.toSignificant(6)}</LabelValue>
-        </InfoDiv>
+          <LabelValue style={{color: '#cccccc' }}>Next Pulse Amount is $ {nextPulsePartAmount?.outputAmount?.toSignificant(6)}</LabelValue>
+          </InfoDiv> */}
         <InfoDiv style={{ display: 'flex', justifyContent: 'center' }}>
           <SplitDiv>
-            <div>TOTAL LOCKED</div>
-            <div>$ {nextPulseTotalAmount?.outputAmount?.toSignificant(6)}</div>
+            <StyledLabelValue>TOTAL LOCKED</StyledLabelValue>
+            <StyledLabelValue>$ {nextPulseTotalAmount?.outputAmount?.toSignificant(6)}</StyledLabelValue>
           </SplitDiv>
-          <SplitDiv style={{ borderLeft: '1px white solid' }}>
-            <div>TVL</div>
-            <div>$ {totalStakedUSD.toFixed(6)}</div>
-          </SplitDiv>
+          <SplitGradientDiv>
+            <StyledLabelValue>TVL</StyledLabelValue>
+            <StyledLabelValue>$ {totalStakedUSD.toFixed(6)}</StyledLabelValue>
+          </SplitGradientDiv>
         </InfoDiv>
+        <PriceInfos />
       </TimerLabelWrapper>
     </>
   )

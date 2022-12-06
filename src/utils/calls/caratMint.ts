@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
-import { DEFAULT_GAS_LIMIT } from 'config'
+import { DEFAULT_GAS_LIMIT, DEFAULT_TOKEN_DECIMAL } from 'config'
 import getGasPrice from 'utils/getGasPrice'
+import {utils} from 'ethers'
 
 const options = {
   gasLimit: DEFAULT_GAS_LIMIT,
@@ -8,9 +9,9 @@ const options = {
 
 export const caratBuy = async (caratContract, amount) => {
   const gasPrice = getGasPrice()
-  const value = new BigNumber(amount).toString()
 
-  const tx = await caratContract.buy(value, { ...options, gasPrice })
+  const value = amount
+  const tx = await caratContract.caratMint(value, { ...options, gasPrice })
   const receipt = await tx.wait()
   return receipt.status
 }
@@ -18,8 +19,15 @@ export const caratBuy = async (caratContract, amount) => {
 export const caratRedeem = async (caratContract, amount) => {
   const gasPrice = getGasPrice()
   const value = new BigNumber(amount).toString()
-
   const tx = await caratContract.redeem(value, { ...options, gasPrice })
   const receipt = await tx.wait()
   return receipt.status
 }
+
+export const caratClaim = async (caratContract) => {
+  const gasPrice = getGasPrice()
+  const tx = await caratContract.claimRewardCarat({ ...options, gasPrice })
+  const receipt = await tx.wait()
+  return receipt.status
+}
+

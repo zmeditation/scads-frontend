@@ -18,14 +18,14 @@ import {
 } from '@scads/uikit'
 import { BASE_BSC_SCAN_URL } from 'config'
 import { useBlock } from 'state/block/hooks'
-import { useVaultPoolByKey } from 'state/pools/hooks'
+import { useVaultPoolByKey, useVaultPools } from 'state/pools/hooks'
 import { DeserializedPool } from 'state/types'
 import { getAddress, getVaultPoolAddress } from 'utils/addressHelpers'
 import { registerToken } from 'utils/wallet'
 import { getBscScanLink } from 'utils'
 import Balance from 'components/Balance'
 import { getPoolBlockInfo } from 'views/Pools/helpers'
-// import { BIG_ZERO } from 'utils/bigNumber'
+import { BIG_ZERO } from 'utils/bigNumber'
 
 interface ExpandedFooterProps {
   pool: DeserializedPool
@@ -60,7 +60,7 @@ const ExpandedFooter: React.FC<ExpandedFooterProps> = ({ pool, account }) => {
     fees: { performanceFee },
   } = useVaultPoolByKey(vaultKey)
 
-  // const vaultPools = useVaultPools()
+  const vaultPools = useVaultPools()
   // const cakeInVaults = Object.values(vaultPools).reduce((total, vault) => {
   //   return total.plus(vault.totalCakeInVault)
   // }, BIG_ZERO)

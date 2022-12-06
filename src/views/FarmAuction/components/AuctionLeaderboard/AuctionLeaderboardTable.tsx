@@ -33,7 +33,9 @@ const LeaderboardContainer = styled.div`
 const GridCell = styled(Flex)<{ isTopPosition: boolean }>`
   height: 65px;
   align-items: center;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border-bottom: 1px solid transparent;
+  border-image: ${({ theme }) => theme.colors.gradients.gold};
+  border-image-slice: 1;
 
   ${({ theme, isTopPosition }) => isTopPosition && `background-color: ${theme.colors.warning}2D;`}
 `

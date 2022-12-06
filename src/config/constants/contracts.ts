@@ -1,15 +1,16 @@
 export default {
   masterChef: {
     // 97: '0x1d32c2945C8FDCBc7156c553B7cEa4325a17f4f9',
-    97: '0x97B631AcBAC4C38Bb0AA18691ea60dB2754609FB',
+    // 97: '0x97B631AcBAC4C38Bb0AA18691ea60dB2754609FB',
+    97: '0x8Cd56Abd3dA18E86Ea7CF24c9351Ab9973dFB36b',
     56: '0x73feaa1eE314F8c655E354234017bE2193C9E24E',
   },
   scads: {
-    97: '0xF6514aB59894790A0448dca33aa6A604a2Ea971f',
+    97: '0x3Fe73cb84490Cb3dBFFB6544c46B28364CDA44AC',
     56: '',
   },
   carat: {
-    97: '0xc87C91e6E17dc97453293dd735D6ccD5fdC29073',
+    97: '0x092A5E4145be4043F2af96Ac706F6D03AF6c7A6e',
     56: '',
   },
   btcsnacks: {
@@ -21,7 +22,7 @@ export default {
     56: '',
   },
   pulse: {
-    97: '0x7558D2fbD1615051F82e8480138FF8C76f21E430',
+    97: '0x9Dc85B19D7ac14d9aFe99dD38735687BdDbD1ED4',
     56: '',
   },
   sousChef: {

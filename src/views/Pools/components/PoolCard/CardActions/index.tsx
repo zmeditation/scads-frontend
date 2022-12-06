@@ -7,7 +7,7 @@ import { useTranslation } from 'contexts/Localization'
 import { PoolCategory } from 'config/constants/types'
 import { DeserializedPool } from 'state/types'
 import Balance from 'components/Balance'
-import { getBalanceNumber } from 'utils/formatBalance'
+import { getFullDisplayBalance, getBalanceNumber, formatNumber } from 'utils/formatBalance'
 import ApprovalAction from './ApprovalAction'
 import StakeActions from './StakeActions'
 import HarvestActions from './HarvestActions'
@@ -89,7 +89,7 @@ const CardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
               sousId={sousId}
               earningTokenPrice={earningTokenPrice}
               isBnbPool={isBnbPool}
-              // isLoading={isLoading}
+              isLoading={isLoading}
             />
           </>
         )}

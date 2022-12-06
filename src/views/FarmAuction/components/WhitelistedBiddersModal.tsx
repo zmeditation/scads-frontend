@@ -18,13 +18,17 @@ const StyledModal = styled(Modal)`
 `
 
 const InputContainer = styled(Flex)`
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border-bottom: 1px solid transparent;
+  border-image: ${({ theme }) => theme.colors.gradients.gold};
+  border-image-slice: 1;
 `
 
 const AddressRowContainer = styled.div`
   display: grid;
   grid-template-columns: 3fr 5fr 0.5fr;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border-bottom: 1px solid transparent;
+  border-image: ${({ theme }) => theme.colors.gradients.gold};
+  border-image-slice: 1;
   padding: 8px 24px;
   &:hover {
     cursor: pointer;

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 82.7 92.78">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Новый_образец_градиента_1);
+      }
+    </style>
+    <linearGradient id="Новый_образец_градиента_1" data-name="Новый образец градиента 1" y1="46.39" x2="82.7" y2="46.39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#cca454"/>
+      <stop offset="0.06" stop-color="#d2aa5a"/>
+      <stop offset="0.22" stop-color="#d4ac5c"/>
+      <stop offset="0.29" stop-color="#d8b364"/>
+      <stop offset="0.4" stop-color="#e3c67a"/>
+      <stop offset="0.54" stop-color="#f4e69e"/>
+      <stop offset="0.59" stop-color="#fcf4ae"/>
+      <stop offset="0.67" stop-color="#f9f0aa"/>
+      <stop offset="0.74" stop-color="#f2e59d"/>
+      <stop offset="0.82" stop-color="#e5d288"/>
+      <stop offset="0.91" stop-color="#d2b76b"/>
+      <stop offset="0.99" stop-color="#bb9546"/>
+      <stop offset="1" stop-color="#b78f3f"/>
+    </linearGradient>
+  </defs>
+  <g id="Шар_2" data-name="Шар 2">
+    <g id="Слой_1" data-name="Слой 1">
+      <path class="cls-1" d="M69.18,78.48,62.62,53.8h17.5v-7H60.77L50.24,7.19A39.37,39.37,0,0,1,75.07,19.43l7.63-1.89a46.39,46.39,0,1,0,0,57.7l-7.63-1.89A40,40,0,0,1,69.18,78.48ZM46.42,20.07l7.1,26.73H39.32ZM7,46.39A39.43,39.43,0,0,1,42.6,7.19L32.08,46.8H12.72v7h17.5L23.65,78.52A39.37,39.37,0,0,1,7,46.39ZM29.83,82.11a3.12,3.12,0,0,0,.3-.73L37.46,53.8H55.38l7.33,27.58a3.93,3.93,0,0,0,.28.7,39.14,39.14,0,0,1-33.16,0Z"/>
+    </g>
+  </g>
+</svg>

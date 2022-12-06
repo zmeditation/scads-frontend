@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { caratBuy, caratRedeem } from 'utils/calls'
+import { caratBuy, caratRedeem, caratClaim } from 'utils/calls'
 import { useCaratContract } from 'hooks/useContract'
 
 const useCaratMint = () => {
@@ -7,19 +7,26 @@ const useCaratMint = () => {
 
   const handleBuy = useCallback(
     async (amount: string) => {
-      await caratBuy(caratContract, amount)
+      const txHash = await caratBuy(caratContract, amount)
     },
     [caratContract],
   )
 
   const handleRedeem = useCallback(
     async (amount: string) => {
-      await caratRedeem(caratContract, amount)
+      const txHash = await caratRedeem(caratContract, amount)
     },
     [caratContract],
   )
 
-  return { caratBuy: handleBuy, caratRedeem: handleRedeem }
+  const handleClaim = useCallback(
+    async () => {
+      const txHash = await caratClaim(caratContract)
+    },
+    [caratContract],
+  )
+
+  return { caratBuy: handleBuy, caratRedeem: handleRedeem, caratClaim: handleClaim }
 }
 
 export default useCaratMint

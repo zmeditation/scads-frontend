@@ -7,8 +7,8 @@ import { useTranslation } from 'contexts/Localization'
 import { PoolCategory } from 'config/constants/types'
 import { DeserializedPool } from 'state/types'
 import Balance from 'components/Balance'
-// import { useCaratAmountUSD } from 'hooks/useBUSDPrice'
-import { getBalanceNumber } from 'utils/formatBalance'
+import { useCaratAmountUSD } from 'hooks/useBUSDPrice'
+import { getFullDisplayBalance, getBalanceNumber, formatNumber } from 'utils/formatBalance'
 import ApprovalAction from './ApprovalAction'
 import StakeActions from './StakeActions'
 import HarvestActions from './HarvestActions'
@@ -23,22 +23,22 @@ interface CardActionsProps {
 }
 
 const ScadsCardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) => {
-  const { sousId, stakingToken, earningToken, poolCategory, userData, earningTokenPrice } = pool
+  const { sousId, stakingToken, earningToken, harvest, poolCategory, userData, earningTokenPrice } = pool
   // Pools using native BNB behave differently than pools using a token
   const isBnbPool = poolCategory === PoolCategory.BINANCE
   const { t } = useTranslation()
   const allowance = userData?.allowance ? new BigNumber(userData.allowance) : BIG_ZERO
   const stakingTokenBalance = userData?.stakingTokenBalance ? new BigNumber(userData.stakingTokenBalance) : BIG_ZERO
   const earnings = userData?.pendingReward ? new BigNumber(userData.pendingReward) : BIG_ZERO
-  // const earningCarat = userData?.userInfo?.rewardDebtCarat ? new BigNumber(userData.userInfo.rewardDebtCarat) : BIG_ZERO
+  const earningCarat = userData?.userInfo?.rewardDebtCarat ? new BigNumber(userData.userInfo.rewardDebtCarat) : BIG_ZERO
   const needsApproval = !allowance.gt(0) && !isBnbPool
   const isStaked = stakedBalance.gt(0)
   const isLoading = !userData
 
   const earningScadsBalance = getBalanceNumber(earnings, earningToken.decimals)
   const earningScadsUSDBalance = getBalanceNumber(earnings.multipliedBy(earningTokenPrice), earningToken.decimals)
-  // const earningCaratBalance = getBalanceNumber(earningCarat, earningToken.decimals)
-  // const earningCaratUSDBalance = useCaratAmountUSD(earningCarat)
+  const earningCaratBalance = getBalanceNumber(earningCarat, earningToken.decimals)
+  const earningCaratUSDBalance = useCaratAmountUSD(earningCarat)
 
   return (
     <Flex flexDirection="column">
@@ -92,7 +92,7 @@ const ScadsCardActions: React.FC<CardActionsProps> = ({ pool, stakedBalance }) =
           sousId={sousId}
           earningTokenPrice={earningTokenPrice}
           isBnbPool={isBnbPool}
-          // isLoading={isLoading}
+          isLoading={isLoading}
         />
         <Box display="inline">
           <InlineText color={isStaked ? 'secondary' : 'textSubtle'} textTransform="uppercase" bold fontSize="12px">

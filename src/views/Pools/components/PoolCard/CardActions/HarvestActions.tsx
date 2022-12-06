@@ -1,10 +1,10 @@
 import React from 'react'
-import { Flex, Button, useModal } from '@scads/uikit'
+import { Flex, Text, Button, Heading, useModal, Skeleton } from '@scads/uikit'
 import BigNumber from 'bignumber.js'
 import { Token } from '@scads/sdk'
 import { useTranslation } from 'contexts/Localization'
 import { getFullDisplayBalance, getBalanceNumber, formatNumber } from 'utils/formatBalance'
-// import Balance from 'components/Balance'
+import Balance from 'components/Balance'
 import CollectModal from '../Modals/CollectModal'
 
 interface HarvestActionsProps {
@@ -13,7 +13,7 @@ interface HarvestActionsProps {
   sousId: number
   earningTokenPrice: number
   isBnbPool: boolean
-  // isLoading?: boolean
+  isLoading?: boolean
 }
 
 const HarvestActions: React.FC<HarvestActionsProps> = ({
@@ -22,6 +22,7 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
   sousId,
   isBnbPool,
   earningTokenPrice,
+  isLoading = false,
 }) => {
   const { t } = useTranslation()
   const earningTokenBalance = getBalanceNumber(earnings, earningToken.decimals)
@@ -43,6 +44,7 @@ const HarvestActions: React.FC<HarvestActionsProps> = ({
       isCompoundPool={isCompoundPool}
     />,
   )
+
   return (
     <Flex justifyContent="center" alignItems="center" mb="16px">
       <Button disabled={!hasEarnings} onClick={onPresentCollect} width="100%" style={{ marginTop: '8px' }}>

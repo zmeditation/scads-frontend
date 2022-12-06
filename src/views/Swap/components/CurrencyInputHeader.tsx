@@ -6,13 +6,11 @@ import {
   Heading,
   HistoryIcon,
   IconButton,
-  // NotificationDot,
   Text,
   useModal,
   ChartDisableIcon,
 } from '@scads/uikit'
 import TransactionsModal from 'components/App/Transactions/TransactionsModal'
-// import { useExpertModeManager } from 'state/user/hooks'
 
 interface Props {
   title: string
@@ -26,7 +24,9 @@ const CurrencyInputContainer = styled(Flex)`
   align-items: center;
   padding: 24px;
   width: 100%;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.cardBorder};
+  border-bottom: 1px solid transparent;
+  border-image: ${({ theme }) => theme.colors.gradients.gold};
+  border-image-slice: 1;
 `
 
 const ColoredIconButton = styled(IconButton)`
@@ -34,7 +34,6 @@ const ColoredIconButton = styled(IconButton)`
 `
 
 const CurrencyInputHeader: React.FC<Props> = ({ title, subtitle, setIsChartDisplayed, isChartDisplayed }) => {
-  // const [expertMode] = useExpertModeManager()
   const toggleChartDisplayed = () => {
     setIsChartDisplayed((currentIsChartDisplayed) => !currentIsChartDisplayed)
   }

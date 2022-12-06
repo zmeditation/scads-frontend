@@ -134,7 +134,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
           <Balance fontSize="12px" color="textSubtle" decimals={2} value={earningsCaratBusd} unit=" USD" prefix="~" />
         </Flex>
       </Flex>
-      <Flex justifyContent="space-between">
+      {/* <Flex justifyContent="space-between">
         <Flex>
           <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="4px">
             EthSnacks
@@ -175,7 +175,7 @@ const CardActions: React.FC<FarmCardActionsProps> = ({ farm, account, addLiquidi
             prefix="~"
           />
         </Flex>
-      </Flex>
+      </Flex> */}
       <HarvestAction earnings={earnings} pid={pid} />
       <Flex>
         <Text bold textTransform="uppercase" color="secondary" fontSize="12px" pr="4px">
